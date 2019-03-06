@@ -39,6 +39,7 @@ import CocMasterNav from './components/Layouts/Partials/CocMasterNav.vue'
 import CocLayoutMasterSplitted from './components/Layouts/Masters/Initials/CocLayoutMasterSplitted.vue'
 import CocPureInput from './components/CocPureForms/CocPureInput.vue'
 import CocOption from './components/CocPureForms/Partials/CocOption.vue'
+import CocTag from './components/CocPureForms/Partials/CocTag.vue'
 import './assets/sass/index.scss'
   
 // Injecting Into Coc Core
@@ -78,7 +79,8 @@ COC.Init = options => {
 		CocLayoutMasterSplitted,
 		CocLayoutDocker,
 		CocPureInput,
-		CocOption
+		CocOption,
+		CocTag
 	}
 	const directives = {
 		CocLoading,

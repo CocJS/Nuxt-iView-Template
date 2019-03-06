@@ -323,6 +323,10 @@
           <strong class = "coc-dark-primary-text">{{ 12500 | CocMigaNumber }}</strong><br>
         </p>
       </div>
+      <div class="coc-background-bg coc-padding-10px coc-standard-border-radius coc-border-1 coc-border-border coc-margin-y-10px">
+        <h3 class = "text-title coc-content-text">Coc Tags</h3>
+        <coc-tag></coc-tag>
+</div>
     </div>
   </coc-main-master>
 </template>
