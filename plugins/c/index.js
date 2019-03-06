@@ -40,7 +40,7 @@ import CocLayoutMasterSplitted from './components/Layouts/Masters/Initials/CocLa
 import CocPureInput from './components/CocPureForms/CocPureInput.vue'
 import CocOption from './components/CocPureForms/Partials/CocOption.vue'
 import './assets/sass/index.scss'
-
+  
 // Injecting Into Coc Core
 
 COC.Arrays = Arrays
