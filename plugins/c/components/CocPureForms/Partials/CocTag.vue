@@ -4,7 +4,7 @@
       :class="[`coc-${color}-section-${type}`,`coc-${borderRadius}-border-radius`,`coc-text-${fontSize}`]"
 			class="coc-padding-4px"
       style="display: inline-block; border : 1px solid black;"
-    >Hesham</span>
+    ><slot name = "default"/></span>
   </div>
 </template>
 

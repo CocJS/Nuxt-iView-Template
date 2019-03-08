@@ -375,7 +375,10 @@
         class="coc-background-bg coc-padding-10px coc-standard-border-radius coc-border-1 coc-border-border coc-margin-y-10px"
       >
         <h3 class="text-title coc-content-text">Coc Tags</h3>
-        <coc-tag color="success" type="light" borderRadius = "bounced" fontSize="normal"></coc-tag>
+        <coc-tag color="success" type="outline" border-radius = "bounced" font-size="small">Hesham</coc-tag>
+        <coc-tag color="primary" type="dark" border-radius = "rounded" font-size="normal">Hesham</coc-tag>
+        <coc-tag color="warning" type="light" border-radius = "tiny" font-size="normal-1">Hesham</coc-tag>
+        <coc-tag color="error" type="dark" border-radius = "normal" font-size="large">Hesham</coc-tag>
       </div>
     </div>
   </coc-main-master>
