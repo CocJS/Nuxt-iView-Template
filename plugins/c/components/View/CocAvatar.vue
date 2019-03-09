@@ -1,0 +1,54 @@
+<template>
+  <span>
+    <span
+      v-if = "icon"
+      :style = "{ width: scale, height: scalse }"
+      :class = "classes"/>
+    <img
+      v-else
+      :src="source"
+      :style = "{ width: scale, height: scale }"
+      :class = "classes">
+  </span>
+</template>
+
+<script>
+export default {
+  name: 'CocAvatar',
+  props: {
+    icon: {
+      type: String,
+      default: null
+    },
+    source: {
+      type: String,
+      default: null
+    },
+    scale: {
+      type: String,
+      default: '50px'
+    },
+    borderRadius: {
+      type: String,
+      default: 'standard'
+    },
+    childClasses: {
+      type: Array,
+      default() {
+        return ['col']
+      }
+    }
+  },
+  data() {
+    return {}
+  },
+  computed: {
+    classes() {
+      return [`coc-${this.borderRadius}-border-radius`, ...this.childClasses]
+    }
+  }
+}
+</script>
+
+<style lang="css" scoped>
+</style>

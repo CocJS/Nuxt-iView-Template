@@ -57,7 +57,7 @@
                 }
               ]
             }
-        ]"
+          ]"
         />
       </div>
 
@@ -75,6 +75,7 @@
           :autocomplete-remote="(model) => { return { method: 'get', url: 'https://jsonplaceholder.typicode.com/posts', free_origin: true } }"
           :autocomplete-map-response="(res, val) => { return res.map( item => { return { label : item.title, value: item.id.toString() } } ) }"
           allow-autocomplete
+          @coc-focus = "handleEvent"
         />
         <p class="text-subtitle coc-content-text text-code">Controls</p>
         <ButtonGroup v-if="cocPureInput">
@@ -319,7 +320,9 @@
         <h3 class="coc-primary-text text-subtitle text-code">Coc Filters</h3>
         <Alert show-icon>
           <h4 class="coc-info-text">Usage</h4>
-          <Icon slot="icon" type="ios-bulb-outline"/>
+          <Icon 
+            slot="icon" 
+            type="ios-bulb-outline"/>
           <template slot="desc">
             <h4 class="coc-info-text">
               <b class="coc-dark-info-text">Template</b>
@@ -375,10 +378,26 @@
         class="coc-background-bg coc-padding-10px coc-standard-border-radius coc-border-1 coc-border-border coc-margin-y-10px"
       >
         <h3 class="text-title coc-content-text">Coc Tags</h3>
-        <coc-tag color="success" type="outline" border-radius = "bounced" font-size="small">Hesham</coc-tag>
-        <coc-tag color="primary" type="dark" border-radius = "rounded" font-size="normal">Hesham</coc-tag>
-        <coc-tag color="warning" type="light" border-radius = "tiny" font-size="normal-1">Hesham</coc-tag>
-        <coc-tag color="error" type="dark" border-radius = "normal" font-size="large">Hesham</coc-tag>
+        <coc-tag 
+          color="success" 
+          type="outline" 
+          border-radius = "bounced" 
+          font-size="small">Hesham</coc-tag>
+        <coc-tag 
+          color="primary" 
+          type="dark" 
+          border-radius = "rounded" 
+          font-size="normal">Hesham</coc-tag>
+        <coc-tag 
+          color="warning" 
+          type="light" 
+          border-radius = "tiny" 
+          font-size="normal-1">Hesham</coc-tag>
+        <coc-tag 
+          color="error" 
+          type="dark" 
+          border-radius = "normal" 
+          font-size="large">Hesham</coc-tag>
       </div>
     </div>
   </coc-main-master>
@@ -386,7 +405,7 @@
 
 <script>
 export default {
-  name: "Index",
+  name: 'Index',
 
   data() {
     return {
@@ -398,77 +417,86 @@ export default {
       btn: null,
       datePicker: null,
       dropdownOptions: [
-        "Foo",
-        "Bar",
+        'Foo',
+        'Bar',
         {
           group: true,
-          label: "OS",
-          icon: "ivu-icon ivu-icon-logo-buffer orange-text",
+          label: 'OS',
+          icon: 'ivu-icon ivu-icon-logo-buffer orange-text',
           options: [
             {
-              label: "Linux",
-              value: "linux",
-              icon: "ivu-icon ivu-icon-logo-tux coc-content-text"
+              label: 'Linux',
+              value: 'linux',
+              icon: 'ivu-icon ivu-icon-logo-tux coc-content-text'
             },
             {
-              label: "Windows",
-              value: "windows",
-              icon: "ivu-icon ivu-icon-logo-windows blue-text"
+              label: 'Windows',
+              value: 'windows',
+              avatar: this.$coc.App.logo.primary,
+              avatarOptions: {
+                scale: '15px',
+                childClasses: ['coc-padding-3px coc-primary-background-bg']
+              }
             },
             {
-              label: "DOS",
-              value: "dos",
-              comment: "Comment"
+              label: 'DOS',
+              value: 'dos',
+              comment: 'Comment'
             }
           ]
         },
         {
-          label: "HTML",
-          value: "html",
-          icon: "ivu-icon ivu-icon-logo-html5 orange-text"
+          label: 'HTML',
+          value: 'html',
+          icon: 'ivu-icon ivu-icon-logo-html5 orange-text'
         },
         {
-          label: "JavaScript",
-          value: "js",
-          icon: "ivu-icon ivu-icon-logo-javascript yellow-text"
+          label: 'JavaScript',
+          value: 'js',
+          icon: 'ivu-icon ivu-icon-logo-javascript yellow-text'
         },
         {
-          label: "CSS",
-          value: "css",
-          icon: "ivu-icon ivu-icon-logo-css3 blue-text"
+          label: 'CSS',
+          value: 'css',
+          icon: 'ivu-icon ivu-icon-logo-css3 blue-text'
         },
         {
-          label: "IOS",
-          value: "ios",
-          icon: "ivu-icon ivu-icon-ios-appstore blue-text text-darken-3"
+          label: 'IOS',
+          value: 'ios',
+          icon: 'ivu-icon ivu-icon-ios-appstore blue-text text-darken-3'
         },
         {
-          label: "Andriod",
-          value: "andriod",
-          icon: "ivu-icon ivu-icon-logo-android green-text"
+          label: 'Andriod',
+          value: 'andriod',
+          icon: 'ivu-icon ivu-icon-logo-android green-text'
         }
       ],
       loaderDirective: true,
       async beforeSubmit() {
         return new Promise((resolve, reject) => {
           this.$axios
-            .get("/")
+            .get('/')
             .then(() => {
-              return resolve(true);
+              return resolve(true)
             })
             .catch(() => {
-              return reject(false);
-            });
-        });
+              return reject(false)
+            })
+        })
       }
-    };
+    }
   },
   mounted() {
     setTimeout(() => {
-      this.cocPureInput.val = "foooozzz";
-    }, 3000);
+      this.cocPureInput.val = 'foooozzz'
+    }, 3000)
+  },
+  methods: {
+    handleEvent(e) {
+      console.log(e)
+    }
   }
-};
+}
 </script>
 
 <style lang="css" scoped>

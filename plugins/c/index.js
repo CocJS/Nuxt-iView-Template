@@ -40,8 +40,11 @@ import CocLayoutMasterSplitted from './components/Layouts/Masters/Initials/CocLa
 import CocPureInput from './components/CocPureForms/CocPureInput.vue'
 import CocOption from './components/CocPureForms/Partials/CocOption.vue'
 import CocTag from './components/CocPureForms/Partials/CocTag.vue'
+import CocAvatar from './components/View/CocAvatar.vue'
+
+// SASS FILES
 import './assets/sass/index.scss'
-  
+
 // Injecting Into Coc Core
 
 COC.Arrays = Arrays
@@ -57,48 +60,49 @@ COC.Filters = Filters
 COC.Docker = Docker
 
 COC.Init = options => {
-	const Vue = options.Vue
-	const lodash = options.lodash
-	const moment = options.moment
-	const components = {
-		CocInput,
-		CocSelect,
-		CocRadio,
-		CocDate,
-		CocButton,
-		CocFormAtom,
-		CocFormItem,
-		CocForm,
-		CocAxios,
-		CocCollapse,
-		CocWatchMyWindow,
-		CocShowKeys,
-		CocMainMaster,
-		CocMasterFooter,
-		CocMasterNav,
-		CocLayoutMasterSplitted,
-		CocLayoutDocker,
-		CocPureInput,
-		CocOption,
-		CocTag
-	}
-	const directives = {
-		CocLoading,
-		CocMouseOver,
-		CocMouseLeave,
-		CocMouseDown,
-		CocMouseUp
-	}
-	Object.keys(components).forEach(key => {
-		Vue.component(key, components[key])
-	})
-	Object.keys(directives).forEach(key => {
-		Vue.directive(key, directives[key])
-	})
-	Object.keys(Filters).forEach(key => {
-		Vue.filter(`Coc${key}`, Filters[key])
-	})
-	Vue.prototype.$moment = moment
-	Vue.prototype.$_ = lodash
+  const Vue = options.Vue
+  const lodash = options.lodash
+  const moment = options.moment
+  const components = {
+    CocInput,
+    CocSelect,
+    CocRadio,
+    CocDate,
+    CocButton,
+    CocFormAtom,
+    CocFormItem,
+    CocForm,
+    CocAxios,
+    CocCollapse,
+    CocWatchMyWindow,
+    CocShowKeys,
+    CocMainMaster,
+    CocMasterFooter,
+    CocMasterNav,
+    CocLayoutMasterSplitted,
+    CocLayoutDocker,
+    CocPureInput,
+    CocOption,
+    CocTag,
+    CocAvatar
+  }
+  const directives = {
+    CocLoading,
+    CocMouseOver,
+    CocMouseLeave,
+    CocMouseDown,
+    CocMouseUp
+  }
+  Object.keys(components).forEach(key => {
+    Vue.component(key, components[key])
+  })
+  Object.keys(directives).forEach(key => {
+    Vue.directive(key, directives[key])
+  })
+  Object.keys(Filters).forEach(key => {
+    Vue.filter(`Coc${key}`, Filters[key])
+  })
+  Vue.prototype.$moment = moment
+  Vue.prototype.$_ = lodash
 }
 export default COC
