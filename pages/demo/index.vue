@@ -439,7 +439,10 @@ export default {
               avatar: this.$coc.App.logo.primary,
               avatarOptions: {
                 scale: '15px',
-                childClasses: ['coc-padding-3px coc-primary-background-bg']
+                childClasses: [
+                  'coc-padding-3px col coc-margin-top-2px coc-primary-background-bg'
+                ],
+                parentClass: ['row coc-inline-block house-keeper']
               }
             },
             {

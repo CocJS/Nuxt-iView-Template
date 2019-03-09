@@ -24,6 +24,12 @@
           :source = "resolvedOption.avatar"/>
         <span class = "coc-padding-x-5px">{{ resolvedOption.label }}</span>
         <span class="coc-padding-x-5px">
+          <span
+            v-if = "onSelect"
+            class="coc-padding-x-5px">
+            <span
+              :class = "['coc-padding-x-5px', 'ivu-icon ivu-icon-md-checkmark-circle-outline', $coc.GetAlignment($root.$coc).inverse]"/>
+          </span>
           <small
             v-if = "resolvedOption.comment"
             :class = "['coc-padding-x-5px', $coc.GetAlignment($root.$coc).inverse]">
@@ -60,6 +66,14 @@ export default {
         this.$parent &&
         this.$parent._isVue &&
         this.$parent.focusUid === this._uid
+      )
+    },
+    onSelect() {
+      return (
+        this.$parent &&
+        this.$parent._isVue &&
+        this.$parent.selectedOptions &&
+        this.$parent.selectedOptions.indexOf(this.resolvedOption.value) !== -1
       )
     },
     prescoped() {

@@ -47,6 +47,14 @@ export default {
     noDataPlaceholder: {
       type: String,
       default: 'No Data Available'
+    },
+    multiple: {
+      type: Boolean,
+      default: false
+    },
+    markSelections: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -55,7 +63,8 @@ export default {
       focusOption: null,
       innerFocus: true,
       isHovered: false,
-      focusUid: null
+      focusUid: null,
+      selectedOptions: []
     }
   },
   computed: {
@@ -164,6 +173,9 @@ export default {
       },
       optionmouseblur() {
         vm.focusOption = null
+      },
+      optionpicked(e) {
+        vm.handleOptionPicked(e)
       }
     })
   },
@@ -239,6 +251,27 @@ export default {
         this.$emit('mousehidden')
         document.body.style.cursor = 'hidden'
       }
+    },
+    handleOptionPicked(e) {
+      if (!this.markSelections) {
+        return
+      }
+      const optionIndex = this.selectedOptions.indexOf(e)
+      if (optionIndex === -1) {
+        if (this.multiple) {
+          this.markOption(e)
+        } else {
+          this.selectedOptions = [e]
+        }
+      } else {
+        this.unmarkOption(optionIndex)
+      }
+    },
+    markOption(e) {
+      this.selectedOptions.push(e)
+    },
+    unmarkOption(e) {
+      this.selectedOptions.splice(e, 1)
     }
   }
 }

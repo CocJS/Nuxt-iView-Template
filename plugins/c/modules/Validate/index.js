@@ -248,7 +248,7 @@ export default class {
   // Has Value
 
   HasValue() {
-    if (this.Val) {
+    if (!this.Val) {
       return false
     }
     if (typeof this.Val === 'string' && !this.Val.length) {
