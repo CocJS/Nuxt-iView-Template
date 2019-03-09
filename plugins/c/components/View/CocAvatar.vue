@@ -43,7 +43,7 @@ export default {
     parentClass: {
       type: Array,
       default() {
-        return ['row house-keeper']
+        return ['row house-keeper coc-inline-block']
       }
     }
   },
