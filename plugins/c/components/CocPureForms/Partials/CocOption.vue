@@ -2,26 +2,32 @@
   <div>
     <div>
       <p
-        v-if = "resolveOption(init).isFirstInGroup"
+        v-if = "resolvedOption.isFirstInGroup"
         class = "text-thin coc-text-normal coc-padding-x-10px">
-        {{ resolveOption(init).groupLabel }}
+        {{ resolvedOption.groupLabel }}
       </p>
       <div
         :class = "[
           {'coc-option-prescoped': prescoped},
-          {'coc-padding-x-20px': resolveOption(init).inGroup},
+          {'coc-padding-x-20px': resolvedOption.inGroup},
         ]"
         class = "pointer coc-padding-x-10px coc-padding-y-7px animated fadeIn"
         @mouseover = "handleMouseOver"
         @mouseleave = "handleMouseLeave"
         @click = "handleMouseClick">
-        <span :class = "[resolveOption(init).icon ]"/>
-        <span class = "coc-padding-x-5px">{{ resolveOption(init).label }}</span>
+        <span
+          v-if = "resolvedOption.icon"
+          :class = "[resolvedOption.icon ]"/>
+        <coc-avatar
+          v-if = "resolvedOption.avatar"
+          v-bind = "resolvedOption.avatarOptions"
+          :source = "resolvedOption.avatar"/>
+        <span class = "coc-padding-x-5px">{{ resolvedOption.label }}</span>
         <span class="coc-padding-x-5px">
           <small
-            v-if = "resolveOption(init).comment"
+            v-if = "resolvedOption.comment"
             :class = "['coc-padding-x-5px', $coc.GetAlignment($root.$coc).inverse]">
-            {{ resolveOption(init).comment }}
+            {{ resolvedOption.comment }}
           </small>
         </span>
       </div>
@@ -58,6 +64,9 @@ export default {
     },
     prescoped() {
       return this.onHover || this.onFocus
+    },
+    resolvedOption() {
+      return this.resolveOption(this.init)
     }
   },
   watch: {
@@ -82,6 +91,8 @@ export default {
           value: null,
           label: '',
           icon: this.fallbackIcon,
+          avatar: null,
+          avatarOptions: null,
           comment: null,
           groupLabel: null,
           inGroup: false,
@@ -99,7 +110,15 @@ export default {
             feed.value !== undefined ? feed.value : feed[Object.keys(feed)[0]],
           label:
             feed.label !== undefined ? feed.label : feed[Object.keys(feed)[0]],
-          icon: feed.icon !== undefined ? feed.icon : this.fallbackIcon,
+          icon:
+            feed.icon !== undefined && !feed.avatar
+              ? feed.icon
+              : this.fallbackIcon,
+          avatar: feed.avatar !== undefined ? feed.avatar : null,
+          avatarOptions:
+            feed.avatarOptions !== undefined && feed.avatar
+              ? feed.avatarOptions
+              : { scale: '20px', childClasses: ['col house-keeper'] },
           comment: feed.comment !== undefined ? feed.comment : null
         }
       } else
@@ -107,6 +126,8 @@ export default {
           value: feed,
           label: feed,
           icon: this.fallbackIcon,
+          avatar: null,
+          avatarOptions: null,
           comment: null,
           groupLabel: null,
           inGroup: false,

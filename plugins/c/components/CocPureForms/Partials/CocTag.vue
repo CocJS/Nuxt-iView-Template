@@ -2,7 +2,7 @@
   <div>
     <span
       :class="[`coc-${color}-section-${type}`,`coc-${borderRadius}-border-radius`,`coc-text-${fontSize}`]"
-			class="coc-padding-4px"
+      class="coc-padding-4px"
       style="display: inline-block; border : 1px solid black;"
     ><slot name = "default"/></span>
   </div>
@@ -10,34 +10,34 @@
 
 <script>
 export default {
-  name: "CocTag",
+  name: 'CocTag',
   props: {
     color: {
       type: String,
-      default: "primary",
+      default: 'primary',
       required: true
     },
     type: {
       type: String,
-      default: "dark",
+      default: 'dark',
       required: true
-		},
-		borderRadius: {
+    },
+    borderRadius: {
       type: String,
-      default: "xs",
+      default: 'xs',
       required: true
-		},
-		fontSize: {
+    },
+    fontSize: {
       type: String,
-      default: "normal",
+      default: 'normal',
       required: true
     }
   },
 
   data() {
-    return {};
+    return {}
   }
-};
+}
 </script>
 
 <style lang="css" scoped>
