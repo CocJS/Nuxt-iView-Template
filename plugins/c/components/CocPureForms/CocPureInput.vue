@@ -357,29 +357,29 @@ export default {
       window.inputFieldControllers = e
     },
     // Handle Events
-    handleFocus() {
+    handleFocus(e) {
       this.isFocused = true
-      this.$emit('cocFocus')
+      this.$emit('coc-focus', e)
     },
-    handleBlur() {
+    handleBlur(e) {
       this.isFocused = false
-      this.$emit('cocBlur')
+      this.$emit('coc-blur', e)
     },
     handleMouseUp(e) {
       this.isMouseDown = true
-      this.$emit('cocMouseUp', e)
+      this.$emit('coc-mouse-up', e)
     },
     handleMouseDown(e) {
       this.isMouseDown = false
-      this.$emit('cocMouseDown', e)
+      this.$emit('coc-mouse-down', e)
     },
     handleMouseOver(e) {
       this.isMouseOver = true
-      this.$emit('cocMouseOver', e)
+      this.$emit('coc-mouse-over', e)
     },
     handleMouseLeave(e) {
       this.isMouseOver = false
-      this.$emit('cocMouseLeave', e)
+      this.$emit('coc-mouse-leave', e)
     },
 
     handleInputFieldInput() {
@@ -387,7 +387,8 @@ export default {
       this.isFired = true
       this.$emit('input', this.inputValue)
     },
-    handleInputFieldKeyup() {
+    handleInputFieldKeyup(e) {
+      this.$emit('coc-keyup', e)
       if (this.autocomplete && this.autocompleteComputedOptions) {
         this.autocompleteRetriever.retrieve()
       }
