@@ -379,24 +379,28 @@
       >
         <h3 class="text-title coc-content-text">Coc Tags</h3>
         <coc-tag 
-          color="success" 
+          color="primary" 
           type="outline" 
-          border-radius = "bounced" 
+          border-radius = "bounced"
+          class = "coc-margin-y-3px"
           font-size="small">Hesham</coc-tag>
         <coc-tag 
-          color="primary" 
+          color="success" 
           type="dark" 
           border-radius = "rounded" 
+          class = "coc-margin-y-3px"
           font-size="normal">Hesham</coc-tag>
         <coc-tag 
           color="warning" 
-          type="light" 
+          type="dark" 
           border-radius = "tiny" 
+          class = "coc-margin-y-3px"
           font-size="normal-1">Hesham</coc-tag>
         <coc-tag 
           color="error" 
-          type="dark" 
+          type="light" 
           border-radius = "normal" 
+          class = "coc-margin-y-3px"
           font-size="large">Hesham</coc-tag>
       </div>
     </div>
