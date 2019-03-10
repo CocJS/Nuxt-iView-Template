@@ -74,6 +74,7 @@
           }"
           :autocomplete-remote="(model) => { return { method: 'get', url: 'https://jsonplaceholder.typicode.com/posts', free_origin: true } }"
           :autocomplete-map-response="(res, val) => { return res.map( item => { return { label : item.title, value: item.id.toString() } } ) }"
+          icon = "ivu-icon ivu-icon-ios-person"
           allow-autocomplete
           @coc-focus = "handleEvent"
         />
