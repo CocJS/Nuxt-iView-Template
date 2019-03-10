@@ -91,6 +91,35 @@
       <div
         class="coc-background-bg coc-padding-10px coc-standard-border-radius coc-border-1 coc-border-border coc-margin-y-10px"
       >
+        <h3 class="text-title coc-content-text">Coc Pure Select</h3>
+        <coc-pure-select
+          v-model="cocPureSelect"
+          :autocomplete-feeds="dropdownOptions"
+          :rules="{
+            HasValue: { active: true },
+            MaxLength: { active: true, args: 6 }
+          }"
+          :autocomplete-remote="(model) => { return { method: 'get', url: 'https://jsonplaceholder.typicode.com/posts', free_origin: true } }"
+          :autocomplete-map-response="(res, val) => { return res.map( item => { return { label : item.title, value: item.id.toString() } } ) }"
+          placeholder = "foo"
+          allow-autocomplete
+          multiple
+          @coc-focus = "handleEvent"
+        />
+        <p class="text-subtitle coc-content-text text-code">Controls</p>
+        <ButtonGroup v-if="cocPureInput">
+          <Button
+            v-for="(method, index) in cocPureInput.control"
+            :key="index"
+            class="text-code"
+            @click="cocPureInput.control[index]()"
+          >{{ index }}</Button>
+        </ButtonGroup>
+      </div>
+
+      <div
+        class="coc-background-bg coc-padding-10px coc-standard-border-radius coc-border-1 coc-border-border coc-margin-y-10px"
+      >
         <h3 class="text-title coc-content-text">Coc Input</h3>
         <coc-input
           v-model="input"
@@ -428,6 +457,7 @@ export default {
       radio: null,
       input: null,
       cocPureInput: null,
+      cocPureSelect: null,
       select: null,
       cb: null,
       btn: null,
@@ -507,7 +537,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.cocPureInput.val = 'foooozzz'
+      console.log(this.$refs.inputFieldReference)
     }, 3000)
   },
   methods: {

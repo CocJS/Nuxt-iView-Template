@@ -1,10 +1,13 @@
 <template>
   <coc-dropdown
+    ref = "dropdown"
     v-model = "dropdownModel"
     :active = "dropdown && dropdownFocus"
     :input = "lastKeyUp"
     :options-filter = "dropdownFilter"
     :feeds = "dropdownOptions"
+    :multiple = "dropdownMultiple"
+    :mark-selections = "dropdownMarkSelections"
     @control = "dropdownControllers = $event"
     @optionprescoped = "handleOptionPrescope"
     @optionpicked = "handleOptionPicked"
@@ -35,7 +38,7 @@
         :disabled="disabled"
         :readonly="readonly"
         :autofocus="autofocus"
-        placeholder="text"
+        :placeholder="placeholder"
         @input = "handleKeyup"
         @focus = "handleFocus"
         @blur = "handleBlur"
@@ -191,6 +194,14 @@ export default {
       default() {
         return []
       }
+    },
+    dropdownMultiple: {
+      type: Boolean,
+      default: false
+    },
+    dropdownMarkSelections: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
