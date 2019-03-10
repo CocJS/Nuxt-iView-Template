@@ -100,9 +100,8 @@
             HasValue: { active: true },
             MaxLength: { active: true, args: 6 }
           }"
-          :autocomplete-remote="(model) => { return { method: 'get', url: 'https://jsonplaceholder.typicode.com/posts', free_origin: true } }"
-          :autocomplete-map-response="(res, val) => { return res.map( item => { return { label : item.title, value: item.id.toString() } } ) }"
-          placeholder = "foo"
+          placeholder = "Pick your flavour, bitch!!"
+          icon = "ivu-icon ivu-icon-ios-code"
           allow-autocomplete
           multiple
           @coc-focus = "handleEvent"

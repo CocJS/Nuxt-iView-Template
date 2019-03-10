@@ -266,6 +266,7 @@ export default {
       } else {
         this.unmarkOption(optionIndex)
       }
+      this.$emit('selections', this.selectedOptions)
     },
     markOption(e) {
       this.selectedOptions.push(e)

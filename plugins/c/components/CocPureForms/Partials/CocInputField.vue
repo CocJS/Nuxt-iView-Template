@@ -11,7 +11,8 @@
     @control = "dropdownControllers = $event"
     @optionprescoped = "handleOptionPrescope"
     @optionpicked = "handleOptionPicked"
-    @noselections = "handleOptionNoSelections">
+    @noselections = "handleOptionNoSelections"
+    @selections = "handleDropdownSelections">
     <div
       v-if = "isMounted"
       ref = "container"
@@ -496,6 +497,9 @@ export default {
     },
     forbiddenKeyCode(code) {
       return specialKeys.indexOf(code) !== -1
+    },
+    handleDropdownSelections(e) {
+      this.$emit('cocdropdownselections', e)
     }
   }
 }

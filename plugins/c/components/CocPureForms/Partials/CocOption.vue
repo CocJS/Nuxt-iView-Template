@@ -94,6 +94,11 @@ export default {
     this.$parent.$on('mousehidden', () => {
       this.onHover = false
     })
+    this.$parent.$parent.$on('cocenter', () => {
+      if (this.prescoped) {
+        this.parentEmit('optionpicked', this.resolveOption(this.init).value)
+      }
+    })
   },
   methods: {
     parentEmit(event, payload = null) {

@@ -23,11 +23,13 @@
       :dropdown-filter = "dropdownFilter"
       :on-error = "onError"
       :on-success = "onSuccess"
+      :icon = "icon"
       :status-classes = "statusClasses"
       :dropdown-multiple = "multiple"
       :dropdown-mark-selections = "true"
       @input = "handleInputFieldInput"
       @cockeyup = "handleInputFieldKeyup"
+      @cockeydown = "handleInputFieldKeydown"
       @meta = "handleInputFieldMeta"
       @control = "handleInputFieldControllers"
       @cocfocus = "handleFocus"
@@ -35,13 +37,21 @@
       @cocmouseover = "handleMouseOver"
       @cocmouseleave = "handleMouseLeave"
       @cocmousedown = "handleMouseDown"
-      @cocmouseup = "handleMouseUp">
-      <template slot = "prepend">
+      @cocmouseup = "handleMouseUp"
+      @cocdropdownselections = "handleDropdownSelections">
+      <div 
+        slot = "prepend"
+        class = "col house-keeper right">
         <coc-tag
           v-for = "(selection, index) in selections"
-          :key = "index">{{ selection }}</coc-tag>
+          :key = "index"
+          type = "outline"
+          color = "primary"
+          border-radius = "standard"
+          font-size = "sm"
+          class = "col coc-margin-x-3px coc-margin-y-0 coc-padding-0">{{ selection }}</coc-tag>
         <slot name = "prepend"/>
-      </template>
+      </div>
       <template slot = "append">
         <slot name = "append"/>
       </template>
@@ -210,7 +220,8 @@ export default {
       isFired: false,
       isLoading: false,
       autoCompleteRemoteFeeds: [],
-      autocompleteRetriever: null
+      autocompleteRetriever: null,
+      selections: []
     }
   },
   computed: {
@@ -266,21 +277,6 @@ export default {
     },
     dropdownOptions() {
       return [...this.autocompleteFeeds, ...this.autoCompleteRemoteFeeds]
-    },
-    selections() {
-      if (!this.$refs.inputFieldReference) {
-        console.log(1)
-        return []
-      }
-      if (!this.$refs.inputFieldReference.$refs) {
-        console.log(2)
-        return []
-      }
-      if (!this.$refs.inputFieldReference.$refs.dropdown) {
-        console.log(3)
-        return []
-      }
-      return this.$refs.inputFieldReference.$refs.dropdown.selectedOptions
     }
   },
   watch: {
@@ -302,11 +298,7 @@ export default {
       }
     }
   },
-  mounted() {
-    setTimeout(() => {
-      console.log(this.$refs.inputFieldReference.$refs.dropdown)
-    }, 3000)
-  },
+  mounted() {},
   methods: {
     // Controllers
     async reset() {
@@ -413,7 +405,6 @@ export default {
       this.isMouseOver = false
       this.$emit('coc-mouse-leave', e)
     },
-
     handleInputFieldInput() {
       this.isValid.valid = false
       this.isFired = true
@@ -425,8 +416,20 @@ export default {
         this.autocompleteRetriever.retrieve()
       }
     },
+    handleInputFieldKeydown(e) {
+      if (e.keyCode === 8 && !e.target.value.length) {
+        this.$refs.inputFieldReference.$refs.dropdown.unmarkOption(
+          this.$refs.inputFieldReference.$refs.dropdown.selectedOptions.length -
+            1
+        )
+      }
+    },
     handleValidation(e) {
       this.isValid = e
+    },
+    handleDropdownSelections(e) {
+      this.selections = e
+      this.inputFieldModel = ''
     }
   }
 }
