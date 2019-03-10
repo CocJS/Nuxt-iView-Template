@@ -7,8 +7,8 @@
     >
       <div class="col s12">
         <coc-avatar
-          v-if = "Avatar"
-          v-bind = "Avatar"
+          v-if = "avatar"
+          v-bind = "avatar"
         />
         <slot 
           name="default" 
@@ -29,12 +29,12 @@ export default {
     },
     type: {
       type: String,
-      default: 'dark',
+      default: 'outline',
       required: true
     },
     borderRadius: {
       type: String,
-      default: 'xs',
+      default: 'standerd',
       required: true
     },
     fontSize: {
@@ -42,7 +42,7 @@ export default {
       default: 'normal',
       required: true
     },
-    Avatar: {
+    avatar: {
       type: Object,
       default: null
     }

@@ -1,23 +1,61 @@
 <template>
-  <nav :class="classes.nav">
-    <slot>
-      <div class="container">
-        <div class="col">
-          <nuxt-link
-            to="/"
-            class="text-super text-code coc-primary-text coc-nav-brand col coc-padding-0"
-          >
-            <img
-              v-coc-mouse-over="'jello'"
-              v-coc-mouse-leave="'rubberBand'"
-              v-if="$coc.App.logo && $coc.App.logo.primary"
-              :src="$coc.App.logo.primary"
-              class="logo col coc-padding-0 animated"
-            >
-            <span
-              class="name col coc-padding-x-10px coc-padding-y-0 coc-margin-0"
-            >{{ $coc.App.name }}</span>
-          </nuxt-link>
+  <nav 
+    :class="classes.nav" 
+    class="row">
+    <slot 
+      name ="leftNav" >
+      <div class="left col l3 s8">
+        <nuxt-link
+          to="/"
+          class="text-super text-code coc-primary-text coc-nav-brand col coc-padding-0"
+        >
+          <coc-avatar
+            v-coc-mouse-over="'jello'"
+            v-coc-mouse-leave="'rubberBand'"
+            :source="$coc.App.logo.primary"
+            class="logo col coc-padding-0 animated"/>
+          <span
+            class="name col coc-padding-x-15px coc-padding-y-0 coc-margin-0"
+          >{{ $coc.App.name }}</span>
+        </nuxt-link>
+      </div>
+    </slot>
+    <slot name = "middleNav">
+      <div class="coc-margin-top-14px col l5 hide-on-med-and-down">
+        <coc-pure-input
+          v-model="cocPureInput"
+          placeholder = "Search"
+          size = "large"
+          icon = "ivu-icon ivu-icon-ios-search"
+        /> 
+      </div>
+    </slot>
+    <slot 
+      name="rightNav"> 
+      <div class="right col l3 s4 coc-margin-top-11px">
+        <div 
+          class="right">
+          <Dropdown>
+            <Button 
+              type="primary"
+              style = "postion : relative;"
+              icon = "ivu-icon ivu-icon-md-more"
+              class="coc-margin-top-11px coc-margin-right-20px">
+              <Icon type="ios-arrow-down"/>
+            </Button>
+            <DropdownMenu slot="list">
+              <DropdownItem>Inbox</DropdownItem>
+              <DropdownItem>Profile</DropdownItem>
+              <DropdownItem>Settings</DropdownItem>
+              <DropdownItem>Logout</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <coc-avatar
+            v-coc-mouse-over="'jello'"
+            v-coc-mouse-leave="'rubberBand'"
+            border-radius = "circle"
+            source="https://pbs.twimg.com/profile_images/570864141801533440/qqzM5W59_400x400.jpeg"
+            class="right logo coc-padding-0 coc-margin-right-20px animated"/>
         </div>
       </div>
     </slot>
@@ -39,7 +77,9 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      cocPureInput: null
+    }
   }
 }
 </script>
