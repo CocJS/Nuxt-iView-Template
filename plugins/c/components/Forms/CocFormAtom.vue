@@ -49,6 +49,9 @@ export default {
       })
     },
     validator() {
+      if (!this.validate) {
+        return null
+      }
       const v = new this.$coc.Validator(this.val)
       v.SetOptions(this.validate)
       return v
@@ -56,6 +59,9 @@ export default {
   },
   watch: {
     val(val) {
+      if (!this.validate) {
+        return
+      }
       const vm = this
       this.validator
         .Run()

@@ -39,8 +39,9 @@
       @cocmousedown = "handleMouseDown"
       @cocmouseup = "handleMouseUp"
       @cocdropdownselections = "handleDropdownSelections">
-      <div 
-        slot = "prepend"
+      <div
+        v-if = "selections.length"
+        slot = "icon-prepend"
         class = "col coc-margin-0 coc-padding-2px right">
         <coc-tag
           v-for = "(selection, index) in selections"
@@ -50,8 +51,8 @@
           border-radius = "standard"
           font-size = "sm"
           class = "col coc-margin-x-3px coc-margin-y-0 coc-padding-0">{{ selection }}</coc-tag>
-        <slot name = "prepend"/>
       </div>
+      <slot name = "prepend"/>
       <template slot = "append">
         <slot name = "append"/>
       </template>
@@ -165,9 +166,7 @@ export default {
     },
     rules: {
       type: Object,
-      default() {
-        return {}
-      }
+      default: null
     },
     statusClasses: {
       type: Object,
@@ -260,10 +259,10 @@ export default {
       }
     },
     onError() {
-      return !this.isValid.valid && this.isFired
+      return this.rules && !this.isValid.valid && this.isFired
     },
     onSuccess() {
-      return this.isValid.valid && this.isFired
+      return this.rules && this.isValid.valid && this.isFired
     },
     // Autocomplette
     autocompleteComputedOptions() {
@@ -433,8 +432,11 @@ export default {
       this.handleAfterSelections()
     },
     handleAfterSelections() {
-      this.inputFieldModel = ''
-      this.inputFieldControllers.handleElementsWidth()
+      console.log('fooooo')
+      this.inputFieldControllers.update('')
+      setTimeout(() => {
+        this.inputFieldControllers.handleElementsWidth()
+      }, 100)
     }
   }
 }

@@ -22,9 +22,13 @@
       <div
         ref = "prepend"
         :id = "ids.prepend"
+        style = "max-width: 300px"
         class = "col house-keeper coc-input-field-prepend">
+        <slot name = "icon-prepend" />
         <span :class = "inputIconClasses"/>
-        <slot name = "prepend" />
+        <div class="col house-keeper">
+          <slot name = "prepend" />
+        </div>
       </div>
       <component 
         ref = "input"
@@ -57,7 +61,7 @@
       <div
         ref = "append"
         :id = "ids.append"
-        style = "min-width: 35px"
+        style = "min-width: 35px; max-width: 300px"
         class = "col house-keeper coc-input-field-append right">
         <span
           v-if = "dropdown"
@@ -77,7 +81,7 @@
             class = "coc-border-0 ivu-icon ivu-icon-ios-close-circle coc-input-field-icon "
             @click = "clear"/>
         </span>
-        <slot name = "append" />
+        <slot name = "append"/>
       </div>
     </div>
   </coc-dropdown>
@@ -341,6 +345,7 @@ export default {
         this.$emit('input', value)
         this.inputValue = value
       }
+      this.handleElementsWidth()
     },
     toggleDropdown() {
       this.dropdownFocus = !this.dropdownFocus
