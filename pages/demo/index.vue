@@ -75,7 +75,7 @@
           :autocomplete-remote="(model) => { return { method: 'get', url: 'https://jsonplaceholder.typicode.com/posts', free_origin: true } }"
           :autocomplete-map-response="(res, val) => { return res.map( item => { return { label : item.title, value: item.id.toString() } } ) }"
           allow-autocomplete
-          @coc-focus = "handleEvent"
+          @coc-focus="handleEvent"
         />
         <p class="text-subtitle coc-content-text text-code">Controls</p>
         <ButtonGroup v-if="cocPureInput">
@@ -407,30 +407,42 @@
         class="coc-background-bg coc-padding-10px coc-standard-border-radius coc-border-1 coc-border-border coc-margin-y-10px"
       >
         <h3 class="text-title coc-content-text">Coc Tags</h3>
-        <coc-tag 
-          color="primary" 
-          type="outline" 
-          border-radius = "bounced"
-          class = "coc-margin-y-3px"
-          font-size="small">Hesham</coc-tag>
-        <coc-tag 
-          color="success" 
-          type="dark" 
-          border-radius = "rounded" 
-          class = "coc-margin-y-3px"
-          font-size="normal">Hesham</coc-tag>
-        <coc-tag 
-          color="warning" 
-          type="dark" 
-          border-radius = "tiny" 
-          class = "coc-margin-y-3px"
-          font-size="normal-1">Hesham</coc-tag>
-        <coc-tag 
-          color="error" 
-          type="light" 
-          border-radius = "normal" 
-          class = "coc-margin-y-3px"
-          font-size="large">Hesham</coc-tag>
+        <coc-tag
+          :avatar = "{
+            source : $coc.App.logo.primary,
+            scale : '15px',
+            borderRadius : 'bounced',
+            childClasses : ['coc-margin-top-3px coc-padding-0 col'],
+            parentClass: ['row coc-inline-block house-keeper']
+          }"
+          color="primary"
+          type="outline"
+          border-radius="bounced"
+          class="coc-margin-y-3px"
+          font-size="small"
+        >Hesham
+        </coc-tag>
+        <coc-tag
+          color="success"
+          type="dark"
+          border-radius="rounded"
+          class="coc-margin-y-3px"
+          font-size="normal"
+        >Hesham</coc-tag>
+        <coc-tag
+          color="warning"
+          type="dark"
+          border-radius="tiny"
+          class="coc-margin-y-3px"
+          font-size="normal-1"
+        >Hesham</coc-tag>
+        <coc-tag
+          color="error"
+          type="light"
+          border-radius="normal"
+          class="coc-margin-y-3px"
+          font-size="large"
+        >Hesham</coc-tag>
       </div>
     </div>
   </coc-main-master>
