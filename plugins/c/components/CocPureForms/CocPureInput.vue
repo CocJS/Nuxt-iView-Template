@@ -17,6 +17,7 @@
       :disabled="disabled"
       :readonly="readonly"
       :autofocus="autofocus"
+      :icon = "icon"
       :unclearable = "unclearable"
       :dropdown = "allowAutocomplete"
       :dropdown-options = "dropdownOptions"
@@ -159,6 +160,10 @@ export default {
       default() {
         return {}
       }
+    },
+    icon: {
+      type: String,
+      default: 'ivu-icon ivu-icon-md-create'
     },
     // Dropdown
     dropdownFilter: {
