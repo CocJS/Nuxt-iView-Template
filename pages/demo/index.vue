@@ -97,8 +97,8 @@
           v-model="cocPureSelect"
           :autocomplete-feeds="dropdownOptions"
           :rules="{
-            HasValue: { active: true },
-            MaxLength: { active: true, args: 6 }
+            PreConditions: { args: [ val => !(val.filter(i => i.length > 6).length) || 'You can not pick an option that exceeds 6 letters' ], message : 'whoops!, |*args*|' },
+            MaxArrayLength: { active: true, args: 3 }
           }"
           placeholder = "Pick your flavour, bitch!!"
           icon = "ivu-icon ivu-icon-ios-code"

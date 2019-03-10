@@ -322,7 +322,8 @@ export default {
       clear: this.clear,
       update: this.update,
       toggleDropdown: this.toggleDropdown,
-      switchDropdown: this.switchDropdown
+      switchDropdown: this.switchDropdown,
+      handleElementsWidth: this.handleElementsWidth
     })
   },
   methods: {
