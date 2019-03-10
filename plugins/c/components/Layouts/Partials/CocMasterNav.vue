@@ -38,18 +38,22 @@
           style="position : absolute;">
          
           <Dropdown>
-            <Button 
-              type="primary"
-              icon = "ivu-icon ivu-icon-md-more"
-              class="coc-primary-background-bg coc-primary-background-hover-bg coc-border-0">
-              <Icon type="ios-arrow-down"/>
+            <div class="row house-keeper">
+              <Button 
+                type="primary"
+                style = " float: left; margin-right: -17px; margin-top: 10px; height: 30px"
+                class="coc-border-0 col coc-padding-y-6px coc-padding-left-10px coc-padding-right-25px"
+                shape = "circle"
+                size = "large">
+                <Icon type="ios-arrow-down"/>
+              </Button>
               <coc-avatar
                 v-coc-mouse-over="'jello'"
                 v-coc-mouse-leave="'rubberBand'"
                 border-radius = "circle"
                 source="https://pbs.twimg.com/profile_images/570864141801533440/qqzM5W59_400x400.jpeg"
-                class="logo coc-padding-0 coc-margin-right-40px animated"/>
-            </Button>
+                class="coc-padding-0 animated col house-keeper right"/>
+            </div>
             <DropdownMenu slot="list">
               <DropdownItem>Inbox</DropdownItem>
               <DropdownItem>Profile</DropdownItem>
