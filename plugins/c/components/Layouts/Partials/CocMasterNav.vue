@@ -34,14 +34,21 @@
       name="rightNav"> 
       <div class="right col l3 s4 coc-margin-top-11px">
         <div 
-          class="right">
+          class="right"
+          style="position : absolute;">
+         
           <Dropdown>
             <Button 
               type="primary"
-              style = "postion : relative;"
               icon = "ivu-icon ivu-icon-md-more"
-              class="coc-margin-top-11px coc-margin-right-20px">
+              class="coc-primary-background-bg coc-primary-background-hover-bg coc-border-0">
               <Icon type="ios-arrow-down"/>
+              <coc-avatar
+                v-coc-mouse-over="'jello'"
+                v-coc-mouse-leave="'rubberBand'"
+                border-radius = "circle"
+                source="https://pbs.twimg.com/profile_images/570864141801533440/qqzM5W59_400x400.jpeg"
+                class="logo coc-padding-0 coc-margin-right-40px animated"/>
             </Button>
             <DropdownMenu slot="list">
               <DropdownItem>Inbox</DropdownItem>
@@ -50,12 +57,6 @@
               <DropdownItem>Logout</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-          <coc-avatar
-            v-coc-mouse-over="'jello'"
-            v-coc-mouse-leave="'rubberBand'"
-            border-radius = "circle"
-            source="https://pbs.twimg.com/profile_images/570864141801533440/qqzM5W59_400x400.jpeg"
-            class="right logo coc-padding-0 coc-margin-right-20px animated"/>
         </div>
       </div>
     </slot>
