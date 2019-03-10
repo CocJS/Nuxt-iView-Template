@@ -383,7 +383,7 @@
             source : $coc.App.logo.primary,
             scale : '15px',
             borderRadius : 'bounced',
-            childClasses : ['col coc-margin-top-2px'],
+            childClasses : ['coc-margin-top-3px coc-padding-0 col'],
             parentClass: ['row coc-inline-block house-keeper']
           }"
           color="primary"
