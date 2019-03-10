@@ -81,7 +81,7 @@ const defaultFilter = (value, options) => {
   )
 }
 export default {
-  name: 'CocPureInpute',
+  name: 'CocPureInput',
   components: {
     CocInputField
   },

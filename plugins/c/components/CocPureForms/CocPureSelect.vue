@@ -165,6 +165,10 @@ export default {
         return {}
       }
     },
+    icon: {
+      type: String,
+      default: 'ivu-icon ivu-icon-md-create'
+    },
     // Dropdown
     dropdownFilter: {
       type: Function,
@@ -265,9 +269,15 @@ export default {
     },
     selections() {
       if (!this.$refs.inputFieldReference) {
+        console.log(1)
         return []
       }
-      if (this.$refs.inputFieldReference.$refs.dropdown) {
+      if (!this.$refs.inputFieldReference.$refs) {
+        console.log(2)
+        return []
+      }
+      if (!this.$refs.inputFieldReference.$refs.dropdown) {
+        console.log(3)
         return []
       }
       return this.$refs.inputFieldReference.$refs.dropdown.selectedOptions
@@ -292,7 +302,11 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    setTimeout(() => {
+      console.log(this.$refs.inputFieldReference.$refs.dropdown)
+    }, 3000)
+  },
   methods: {
     // Controllers
     async reset() {

@@ -536,9 +536,9 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {
-      console.log(this.$refs.inputFieldReference)
-    }, 3000)
+    // setTimeout(() => {
+    //   console.log(this.$refs.inputFieldReference)
+    // }, 3000)
   },
   methods: {
     handleEvent(e) {
