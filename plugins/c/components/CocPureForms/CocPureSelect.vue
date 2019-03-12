@@ -40,7 +40,7 @@
       @cocmouseup = "handleMouseUp"
       @cocdropdownselections = "handleDropdownSelections">
       <div
-        v-if = "selections.length"
+        v-if = "selections && selections.length"
         slot = "icon-prepend"
         class = "col coc-margin-0 coc-padding-2px right">
         <coc-tag
@@ -50,7 +50,12 @@
           type = "outline"
           border-radius = "standard"
           font-size = "sm"
-          class = "col coc-margin-x-3px coc-margin-y-0 coc-padding-0">{{ selection }}</coc-tag>
+          class = "col coc-margin-x-3px coc-margin-y-0 coc-padding-0">
+          <span>
+            {{ selection }}
+            <a @click = "ummarkTagOption(selection)" >x</a>
+          </span>
+        </coc-tag>
       </div>
       <slot name = "prepend"/>
       <template slot = "append">
@@ -217,6 +222,7 @@ export default {
       isMouseOver: false,
       isValid: { valid: false },
       isFired: false,
+      isMounted: false,
       isLoading: false,
       autoCompleteRemoteFeeds: [],
       autocompleteRetriever: null,
@@ -289,15 +295,35 @@ export default {
     value: {
       deep: true,
       handler(val) {
-        if (typeof val === 'object' && !Array.isArray(val)) {
-          this.selections = val.val
-        } else if (typeof val === 'object' && Array.isArray(val)) {
-          this.selections = val
+        this.selections = this.resolveValue(val)
+        console.log(
+          'selections isss',
+          this.selections,
+          'val iss',
+          val.val,
+          'placeholder is,',
+          this.placeholder
+        )
+        if (
+          this.isMounted &&
+          this.$refs.inputFieldReference.$refs.dropdown.selectedOptions !==
+            this.selections
+        ) {
+          this.$refs.inputFieldReference.$refs.dropdown.selectedOptions = this.selections
         }
+      }
+    },
+    selections() {
+      if (this.isFired || this.isMounted) {
+        this.handleAfterSelections()
       }
     }
   },
-  mounted() {},
+  mounted() {
+    setTimeout(() => {
+      this.isMounted = true
+    }, 1000)
+  },
   methods: {
     // Controllers
     async reset() {
@@ -417,11 +443,7 @@ export default {
     },
     handleInputFieldKeydown(e) {
       if (e.keyCode === 8 && !e.target.value.length) {
-        this.$refs.inputFieldReference.$refs.dropdown.unmarkOption(
-          this.$refs.inputFieldReference.$refs.dropdown.selectedOptions.length -
-            1
-        )
-        this.handleAfterSelections()
+        this.$refs.inputFieldReference.$refs.dropdown.selectedOptions.pop()
       }
     },
     handleValidation(e) {
@@ -429,14 +451,33 @@ export default {
     },
     handleDropdownSelections(e) {
       this.selections = e
-      this.handleAfterSelections()
     },
     handleAfterSelections() {
-      console.log('fooooo')
+      this.selections = this.$refs.inputFieldReference.$refs.dropdown.selectedOptions
       this.inputFieldControllers.update('')
       setTimeout(() => {
         this.inputFieldControllers.handleElementsWidth()
       }, 100)
+    },
+    ummarkTagOption(selection) {
+      this.$refs.inputFieldReference.$refs.dropdown.unmarkOptionByValue(
+        selection
+      )
+    },
+    resolveValue(val) {
+      if (typeof val === 'object' && !Array.isArray(val)) {
+        return this.resolveCoreValue(val.val)
+      } else if (typeof val === 'object' && Array.isArray(val)) {
+        return this.resolveCoreValue(val)
+      }
+    },
+    resolveCoreValue(val) {
+      return val
+      // if (!this.multiple) {
+      //   return val.length ? val[0] : []
+      // } else {
+      //   return val
+      // }
     }
   }
 }

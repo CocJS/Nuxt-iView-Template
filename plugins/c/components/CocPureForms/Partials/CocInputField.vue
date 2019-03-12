@@ -22,7 +22,6 @@
       <div
         ref = "prepend"
         :id = "ids.prepend"
-        style = "max-width: 300px"
         class = "col house-keeper coc-input-field-prepend">
         <slot name = "icon-prepend" />
         <span :class = "inputIconClasses"/>
@@ -108,6 +107,7 @@ const defaultFilter = (value, options) => {
   )
 }
 const specialKeys = [37, 38, 39, 40, 13, 27]
+const arrowKeys = [37, 38, 39, 40]
 export default {
   name: 'CocInputField',
   components: {
@@ -368,7 +368,7 @@ export default {
     },
     handleInputEvent(e) {
       // this.inputValue = e.target.value
-      this.dropdownFocus = true
+      // this.dropdownFocus = true
     },
     handleMouseUp(e) {
       this.isMouseDown = false
@@ -411,10 +411,15 @@ export default {
     },
     handleKeyup(event) {
       this.$emit('cockeyup', event)
+      if (arrowKeys.indexOf(event.keyCode) !== -1) {
+        this.dropdownFocus = true
+        return
+      }
       if (specialKeys.indexOf(event.keyCode) !== -1) {
         return
       }
       this.update(event.target.value, true)
+      this.dropdownFocus = true
     },
     handleKeyUpArrowUp(event) {
       this.$emit('cocarrowup', event)

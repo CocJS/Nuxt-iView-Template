@@ -273,6 +273,10 @@ export default {
     },
     unmarkOption(e) {
       this.selectedOptions.splice(e, 1)
+    },
+    unmarkOptionByValue(value) {
+      this.selectedOptions = this.selectedOptions.filter(i => i !== value)
+      this.$emit('selections', this.selectedOptions)
     }
   }
 }
