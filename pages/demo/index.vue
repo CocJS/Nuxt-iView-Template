@@ -74,7 +74,36 @@
           }"
           :autocomplete-remote="(model) => { return { method: 'get', url: 'https://jsonplaceholder.typicode.com/posts', free_origin: true } }"
           :autocomplete-map-response="(res, val) => { return res.map( item => { return { label : item.title, value: item.id.toString() } } ) }"
+          icon = "ivu-icon ivu-icon-ios-person"
           allow-autocomplete
+          @coc-focus = "handleEvent"
+        />
+        <p class="text-subtitle coc-content-text text-code">Controls</p>
+        <ButtonGroup v-if="cocPureInput">
+          <Button
+            v-for="(method, index) in cocPureInput.control"
+            :key="index"
+            class="text-code"
+            @click="cocPureInput.control[index]()"
+          >{{ index }}</Button>
+        </ButtonGroup>
+      </div>
+
+      <div
+        class="coc-background-bg coc-padding-10px coc-standard-border-radius coc-border-1 coc-border-border coc-margin-y-10px"
+      >
+        <h3 class="text-title coc-content-text">Coc Pure Select</h3>
+        <coc-pure-select
+          v-model="cocPureSelect"
+          :autocomplete-feeds="dropdownOptions"
+          :rules="{
+            PreConditions: { args: [ val => !(val.filter(i => i.length > 6).length) || 'You can not pick an option that exceeds 6 letters' ], message : 'whoops!, |*args*|' },
+            MaxArrayLength: { active: true, args: 3 }
+          }"
+          placeholder = "Pick your flavour, bitch!!"
+          icon = "ivu-icon ivu-icon-ios-code"
+          allow-autocomplete
+          multiple
           @coc-focus = "handleEvent"
         />
         <p class="text-subtitle coc-content-text text-code">Controls</p>
@@ -416,6 +445,7 @@ export default {
       radio: null,
       input: null,
       cocPureInput: null,
+      cocPureSelect: null,
       select: null,
       cb: null,
       btn: null,
@@ -439,7 +469,10 @@ export default {
               avatar: this.$coc.App.logo.primary,
               avatarOptions: {
                 scale: '15px',
-                childClasses: ['coc-padding-3px coc-primary-background-bg']
+                childClasses: [
+                  'coc-padding-3px col coc-margin-top-2px coc-primary-background-bg'
+                ],
+                parentClass: ['row coc-inline-block house-keeper']
               }
             },
             {
@@ -491,9 +524,9 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {
-      this.cocPureInput.val = 'foooozzz'
-    }, 3000)
+    // setTimeout(() => {
+    //   console.log(this.$refs.inputFieldReference)
+    // }, 3000)
   },
   methods: {
     handleEvent(e) {

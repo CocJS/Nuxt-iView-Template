@@ -1,14 +1,18 @@
 <template>
   <coc-dropdown
+    ref = "dropdown"
     v-model = "dropdownModel"
     :active = "dropdown && dropdownFocus"
     :input = "lastKeyUp"
     :options-filter = "dropdownFilter"
     :feeds = "dropdownOptions"
+    :multiple = "dropdownMultiple"
+    :mark-selections = "dropdownMarkSelections"
     @control = "dropdownControllers = $event"
     @optionprescoped = "handleOptionPrescope"
     @optionpicked = "handleOptionPicked"
-    @noselections = "handleOptionNoSelections">
+    @noselections = "handleOptionNoSelections"
+    @selections = "handleDropdownSelections">
     <div
       v-if = "isMounted"
       ref = "container"
@@ -35,7 +39,7 @@
         :disabled="disabled"
         :readonly="readonly"
         :autofocus="autofocus"
-        placeholder="text"
+        :placeholder="placeholder"
         @input = "handleKeyup"
         @focus = "handleFocus"
         @blur = "handleBlur"
@@ -191,6 +195,14 @@ export default {
       default() {
         return []
       }
+    },
+    dropdownMultiple: {
+      type: Boolean,
+      default: false
+    },
+    dropdownMarkSelections: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -310,7 +322,8 @@ export default {
       clear: this.clear,
       update: this.update,
       toggleDropdown: this.toggleDropdown,
-      switchDropdown: this.switchDropdown
+      switchDropdown: this.switchDropdown,
+      handleElementsWidth: this.handleElementsWidth
     })
   },
   methods: {
@@ -485,6 +498,9 @@ export default {
     },
     forbiddenKeyCode(code) {
       return specialKeys.indexOf(code) !== -1
+    },
+    handleDropdownSelections(e) {
+      this.$emit('cocdropdownselections', e)
     }
   }
 }
