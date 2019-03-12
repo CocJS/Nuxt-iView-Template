@@ -25,18 +25,24 @@ export default ({ app: { router }, env }, inject) => {
     social: {
       facebook: {
         label: 'Facebook',
-        avatarProps: null,
-        url: ''
+        avatarProps: {
+          icon: 'ivu-icon ivu-icon-logo-facebook'
+        },
+        url: 'https://facebook.com'
       },
       instagram: {
         label: 'Instagram',
-        avatarProps: null,
-        url: ''
+        avatarProps: {
+          icon: 'ivu-icon ivu-icon-logo-instagram'
+        },
+        url: 'https://instagram.com'
       },
       twitter: {
         label: 'Twttier',
-        avatarProps: null,
-        url: ''
+        avatarProps: {
+          icon: 'ivu-icon ivu-icon-logo-twitter'
+        },
+        url: 'https://twitter.com'
       }
     }
   })

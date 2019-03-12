@@ -52,7 +52,14 @@ export default {
   },
   computed: {
     classes() {
-      return [`coc-${this.borderRadius}-border-radius`, ...this.childClasses]
+      const classes = [
+        `coc-${this.borderRadius}-border-radius`,
+        ...this.childClasses
+      ]
+      if (this.icon) {
+        classes.push(this.icon)
+      }
+      return classes
     }
   }
 }

@@ -10,8 +10,18 @@
           class = "white-text text-mg-lg">
           <Icon type="logo-github" />
           <span class="text-sm text-thin">GitHub</span>
-          <coc-avatar v-bind="resolveAvatar($coc.App.social.facebook.avatarProps)"/>
         </a>
+        <div
+          v-if = "$coc.App.social"
+          class="row">
+          <a
+            v-for = "(social, index) in $coc.App.social"
+            :key = "index"
+            :url = "social.url">
+            <coc-avatar
+              v-bind="resolveAvatar(social.avatarProps)"/>
+          </a>
+        </div>
       </div>
     </slot>
     <slot name = "bottom">
@@ -42,15 +52,14 @@ export default {
   data() {
     return {
       avatarDefaults: {
-        scale: '15px',
-        icon: 'ivu-icon ivu-icon-logo-facebook'
+        scale: '20px',
+        childClasses: ['coc-text-normal-2']
       }
     }
   },
   methods: {
     resolveAvatar(props) {
-      const vm = this
-      return { ...vm.avatarDefaults, ...props }
+      return { ...this.avatarDefaults, ...props }
     }
   }
 }
