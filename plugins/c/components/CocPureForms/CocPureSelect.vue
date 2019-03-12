@@ -129,8 +129,10 @@ export default {
       }
     },
     value: {
-      type: [String, Object],
-      default: ''
+      type: [String, Object, Array],
+      default() {
+        return []
+      }
     },
     size: {
       type: String,
@@ -296,14 +298,14 @@ export default {
       deep: true,
       handler(val) {
         this.selections = this.resolveValue(val)
-        console.log(
-          'selections isss',
-          this.selections,
-          'val iss',
-          val.val,
-          'placeholder is,',
-          this.placeholder
-        )
+        // console.log(
+        //   'selections isss',
+        //   this.selections,
+        //   'val iss',
+        //   val.val,
+        //   'placeholder is,',
+        //   this.placeholder
+        // )
         if (
           this.isMounted &&
           this.$refs.inputFieldReference.$refs.dropdown.selectedOptions !==
@@ -465,11 +467,13 @@ export default {
       )
     },
     resolveValue(val) {
+      console.log(val, typeof val)
       if (typeof val === 'object' && !Array.isArray(val)) {
         return this.resolveCoreValue(val.val)
       } else if (typeof val === 'object' && Array.isArray(val)) {
         return this.resolveCoreValue(val)
       }
+      return [val]
     },
     resolveCoreValue(val) {
       return val

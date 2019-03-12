@@ -80,7 +80,7 @@
         <coc-pure-input
           placeholder = "Slots Demo.."
           icon = "ivu-icon ivu-icon-ios-grid-outline">
-          <coc-pure-select
+          <!-- <coc-pure-select
             slot = "prepend"
             v-model="cocPureSelect"
             :autocomplete-feeds="dropdownOptions"
@@ -95,7 +95,8 @@
             placeholder = "Pick!!"
             icon = "ivu-icon ivu-icon-ios-code"
             allow-autocomplete
-          />
+            multiple
+          /> -->
           <span
             slot = "append"
             slot-scope = "{ model }"

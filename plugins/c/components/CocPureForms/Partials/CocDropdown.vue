@@ -261,7 +261,8 @@ export default {
         if (this.multiple) {
           this.markOption(e)
         } else {
-          this.selectedOptions = [e]
+          this.selectedOptions = []
+          this.markOption(e)
         }
       } else {
         this.unmarkOption(optionIndex)
