@@ -16,10 +16,28 @@ export default ({ app: { router }, env }, inject) => {
     brandName: 'CocJs',
     version: pkg.version,
     repository: pkg.repository,
+    author: pkg.author,
     mode: env.mode,
     logo: {
       primary: '/snaps/COC.png',
       invert: '/snaps/COC-Invert.png'
+    },
+    social: {
+      facebook: {
+        label: 'Facebook',
+        avatarProps: null,
+        url: ''
+      },
+      instagram: {
+        label: 'Instagram',
+        avatarProps: null,
+        url: ''
+      },
+      twitter: {
+        label: 'Twttier',
+        avatarProps: null,
+        url: ''
+      }
     }
   })
   // Docker

@@ -4,7 +4,7 @@
     :class = "parentClass">
     <span
       v-if = "icon"
-      :style = "{ width: scale, height: scalse }"
+      :style = "{ width: scale, height: scale }"
       :class = "classes"/>
     <img
       v-else

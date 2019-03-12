@@ -2,7 +2,7 @@
   <footer :class = "classes.nav">
     <slot>
       <div class = "container bounds-respect-padding-top-10px bounds-respect-padding-bottom-10px">
-        <p class = "text-lg text-code">{{ $coc.App.name }}</p>
+        <p class = "text-lg text-code">{{ $coc.App.brandName }}</p>
         <p class = "text-smd">{{ $coc.App.description }}</p>
         <a
           v-if = "$coc.App.repository && $coc.App.repository.url"
@@ -10,14 +10,16 @@
           class = "white-text text-mg-lg">
           <Icon type="logo-github" />
           <span class="text-sm text-thin">GitHub</span>
+          <coc-avatar v-bind="resolveAvatar($coc.App.social.facebook.avatarProps)"/>
         </a>
       </div>
     </slot>
     <slot name = "bottom">
       <div class = "bounds-respect-padding-top-10px coc-padding-bottom-6vh alpha-white-1">
         <div class="container">
-          <span>Version {{ $coc.App.version }}</span>
+          <span>Version {{ $coc.App.version }} </span>
           <span class = "right">{{ $coc.App.name }} by {{ $coc.App.author }} {{ $moment().format('YYYY') }} &copy; </span>
+          <span/>
         </div>
       </div>
     </slot>
@@ -38,7 +40,18 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      avatarDefaults: {
+        scale: '15px',
+        icon: 'ivu-icon ivu-icon-logo-facebook'
+      }
+    }
+  },
+  methods: {
+    resolveAvatar(props) {
+      const vm = this
+      return { ...vm.avatarDefaults, ...props }
+    }
   }
 }
 </script>
