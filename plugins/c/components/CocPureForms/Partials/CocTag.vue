@@ -2,9 +2,19 @@
   <div>
     <span
       :class="[`coc-${color}-section-${type}`,`coc-${borderRadius}-border-radius`,`coc-text-${fontSize}`]"
-      class="coc-padding-4px"
+      class="coc-padding-4px col s12"
       style="display: inline-block; border : 1px solid black;"
-    ><slot name = "default"/></span>
+    >
+      <div class="col s12">
+        <coc-avatar
+          v-if = "avatar"
+          v-bind = "avatar"
+        />
+        <slot 
+          name="default" 
+          class=""/>
+      </div>
+    </span>
   </div>
 </template>
 
@@ -19,18 +29,22 @@ export default {
     },
     type: {
       type: String,
-      default: 'dark',
+      default: 'outline',
       required: true
     },
     borderRadius: {
       type: String,
-      default: 'xs',
+      default: 'standerd',
       required: true
     },
     fontSize: {
       type: String,
       default: 'normal',
       required: true
+    },
+    avatar: {
+      type: Object,
+      default: null
     }
   },
 
