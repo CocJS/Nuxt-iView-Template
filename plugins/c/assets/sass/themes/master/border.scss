@@ -16,3 +16,9 @@ $directions: "top-right" "bottom-right" "top-left" "bottom-left";
     }
  }
 }
+.coc-no-outline {
+    outline: none;
+}
+.coc-focus-no-outline:focus {
+    outline: none;
+}

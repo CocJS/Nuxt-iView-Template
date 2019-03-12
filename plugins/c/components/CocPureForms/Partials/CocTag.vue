@@ -1,8 +1,7 @@
 <template>
-  <div>
+  <div :class = "parentClass">
     <span
-      :class="[`coc-${color}-section-${type}`,`coc-${borderRadius}-border-radius`,`coc-text-${fontSize}`]"
-      class="coc-padding-4px"
+      :class="[`coc-${color}-section-${type}`,`coc-${borderRadius}-border-radius`,`coc-text-${fontSize}`, childClass]"
       style="display: inline-block; border : 1px solid black;"
     ><slot name = "default"/></span>
   </div>
@@ -31,6 +30,14 @@ export default {
       type: String,
       default: 'normal',
       required: true
+    },
+    parentClass: {
+      type: String,
+      default: ''
+    },
+    childClass: {
+      type: String,
+      default: 'coc-padding-x-4px coc-padding-y-2px'
     }
   },
 

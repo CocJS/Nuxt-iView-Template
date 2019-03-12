@@ -1,5 +1,7 @@
 <template>
-  <span>
+  <div
+    :style = "{ width: scale, height: scale }"
+    :class = "parentClass">
     <span
       v-if = "icon"
       :style = "{ width: scale, height: scalse }"
@@ -9,7 +11,7 @@
       :src="source"
       :style = "{ width: scale, height: scale }"
       :class = "classes">
-  </span>
+  </div>
 </template>
 
 <script>
@@ -35,7 +37,13 @@ export default {
     childClasses: {
       type: Array,
       default() {
-        return ['col']
+        return ['col house-keeper']
+      }
+    },
+    parentClass: {
+      type: Array,
+      default() {
+        return ['row house-keeper coc-inline-block']
       }
     }
   },

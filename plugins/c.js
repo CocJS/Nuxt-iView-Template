@@ -13,6 +13,7 @@ export default ({ app: { router }, env }, inject) => {
   // Config app data
   COC.Config.Meta({
     name: pkg.name,
+    brandName: 'CocJs',
     version: pkg.version,
     repository: pkg.repository,
     mode: env.mode,

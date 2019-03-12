@@ -38,6 +38,7 @@ import CocLayoutDocker from './components/Layouts/Partials/Docker.vue'
 import CocMasterNav from './components/Layouts/Partials/CocMasterNav.vue'
 import CocLayoutMasterSplitted from './components/Layouts/Masters/Initials/CocLayoutMasterSplitted.vue'
 import CocPureInput from './components/CocPureForms/CocPureInput.vue'
+import CocPureSelect from './components/CocPureForms/CocPureSelect.vue'
 import CocOption from './components/CocPureForms/Partials/CocOption.vue'
 import CocTag from './components/CocPureForms/Partials/CocTag.vue'
 import CocAvatar from './components/View/CocAvatar.vue'
@@ -82,6 +83,7 @@ COC.Init = options => {
     CocLayoutMasterSplitted,
     CocLayoutDocker,
     CocPureInput,
+    CocPureSelect,
     CocOption,
     CocTag,
     CocAvatar

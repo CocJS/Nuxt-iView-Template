@@ -1,14 +1,18 @@
 <template>
   <coc-dropdown
+    ref = "dropdown"
     v-model = "dropdownModel"
     :active = "dropdown && dropdownFocus"
     :input = "lastKeyUp"
     :options-filter = "dropdownFilter"
     :feeds = "dropdownOptions"
+    :multiple = "dropdownMultiple"
+    :mark-selections = "dropdownMarkSelections"
     @control = "dropdownControllers = $event"
     @optionprescoped = "handleOptionPrescope"
     @optionpicked = "handleOptionPicked"
-    @noselections = "handleOptionNoSelections">
+    @noselections = "handleOptionNoSelections"
+    @selections = "handleDropdownSelections">
     <div
       v-if = "isMounted"
       ref = "container"
@@ -19,8 +23,11 @@
         ref = "prepend"
         :id = "ids.prepend"
         class = "col house-keeper coc-input-field-prepend">
+        <slot name = "icon-prepend" />
         <span :class = "inputIconClasses"/>
-        <slot name = "prepend" />
+        <div class="col house-keeper">
+          <slot name = "prepend" />
+        </div>
       </div>
       <component 
         ref = "input"
@@ -35,7 +42,7 @@
         :disabled="disabled"
         :readonly="readonly"
         :autofocus="autofocus"
-        placeholder="text"
+        :placeholder="placeholder"
         @input = "handleKeyup"
         @focus = "handleFocus"
         @blur = "handleBlur"
@@ -53,7 +60,7 @@
       <div
         ref = "append"
         :id = "ids.append"
-        style = "min-width: 35px"
+        style = "min-width: 35px; max-width: 300px"
         class = "col house-keeper coc-input-field-append right">
         <span
           v-if = "dropdown"
@@ -73,7 +80,7 @@
             class = "coc-border-0 ivu-icon ivu-icon-ios-close-circle coc-input-field-icon "
             @click = "clear"/>
         </span>
-        <slot name = "append" />
+        <slot name = "append"/>
       </div>
     </div>
   </coc-dropdown>
@@ -100,6 +107,7 @@ const defaultFilter = (value, options) => {
   )
 }
 const specialKeys = [37, 38, 39, 40, 13, 27]
+const arrowKeys = [37, 38, 39, 40]
 export default {
   name: 'CocInputField',
   components: {
@@ -191,6 +199,14 @@ export default {
       default() {
         return []
       }
+    },
+    dropdownMultiple: {
+      type: Boolean,
+      default: false
+    },
+    dropdownMarkSelections: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -310,7 +326,8 @@ export default {
       clear: this.clear,
       update: this.update,
       toggleDropdown: this.toggleDropdown,
-      switchDropdown: this.switchDropdown
+      switchDropdown: this.switchDropdown,
+      handleElementsWidth: this.handleElementsWidth
     })
   },
   methods: {
@@ -328,6 +345,7 @@ export default {
         this.$emit('input', value)
         this.inputValue = value
       }
+      this.handleElementsWidth()
     },
     toggleDropdown() {
       this.dropdownFocus = !this.dropdownFocus
@@ -350,7 +368,7 @@ export default {
     },
     handleInputEvent(e) {
       // this.inputValue = e.target.value
-      this.dropdownFocus = true
+      // this.dropdownFocus = true
     },
     handleMouseUp(e) {
       this.isMouseDown = false
@@ -393,10 +411,15 @@ export default {
     },
     handleKeyup(event) {
       this.$emit('cockeyup', event)
+      if (arrowKeys.indexOf(event.keyCode) !== -1) {
+        this.dropdownFocus = true
+        return
+      }
       if (specialKeys.indexOf(event.keyCode) !== -1) {
         return
       }
       this.update(event.target.value, true)
+      this.dropdownFocus = true
     },
     handleKeyUpArrowUp(event) {
       this.$emit('cocarrowup', event)
@@ -485,6 +508,9 @@ export default {
     },
     forbiddenKeyCode(code) {
       return specialKeys.indexOf(code) !== -1
+    },
+    handleDropdownSelections(e) {
+      this.$emit('cocdropdownselections', e)
     }
   }
 }

@@ -248,7 +248,7 @@ export default class {
   // Has Value
 
   HasValue() {
-    if (this.Val) {
+    if (!this.Val && typeof val !== 'number') {
       return false
     }
     if (typeof this.Val === 'string' && !this.Val.length) {
@@ -288,7 +288,7 @@ export default class {
   }
 
   IsArray() {
-    return Array.isArray(this.Val)
+    return typeof this.Val === 'object' && Array.isArray(this.Val)
   }
 
   IsObject() {
@@ -357,16 +357,25 @@ export default class {
 
   // In Max Range << Number >>
   MaxLength(max = 10) {
+    if (!this.Val) {
+      return false
+    }
     return this.Val.length <= max
   }
 
   // In Min Range << Number >>
   MinLength(min = 5) {
+    if (!this.Val) {
+      return false
+    }
     return this.Val.length >= min
   }
 
   LengthBetween(limits = { min: 2, max: 10 }) {
-    return this.Val.length >= limits.min && this.Val <= limits.max
+    if (!this.Val) {
+      return false
+    }
+    return this.Val.length >= limits.min && this.Val.length <= limits.max
   }
 
   // Identical << Number >>
@@ -381,14 +390,14 @@ export default class {
 
   // Array Length Min
   MinArrayLength(min = 2) {
-    if (!this.isArray(this.Val)) return false
-    return this.Val.length >= min
+    if (!this.IsArray()) return false
+    return this.Val.length > min
   }
 
   // Array Length Max
   MaxArrayLength(max = 10) {
-    if (!this.isArray(this.Val)) return false
-    return this.Val.length <= max
+    if (!this.IsArray()) return false
+    return this.Val.length < max
   }
 
   // Remote

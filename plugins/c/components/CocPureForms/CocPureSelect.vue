@@ -17,16 +17,19 @@
       :disabled="disabled"
       :readonly="readonly"
       :autofocus="autofocus"
-      :icon = "icon"
       :unclearable = "unclearable"
       :dropdown = "allowAutocomplete"
       :dropdown-options = "dropdownOptions"
       :dropdown-filter = "dropdownFilter"
       :on-error = "onError"
       :on-success = "onSuccess"
+      :icon = "icon"
       :status-classes = "statusClasses"
+      :dropdown-multiple = "multiple"
+      :dropdown-mark-selections = "true"
       @input = "handleInputFieldInput"
       @cockeyup = "handleInputFieldKeyup"
+      @cockeydown = "handleInputFieldKeydown"
       @meta = "handleInputFieldMeta"
       @control = "handleInputFieldControllers"
       @cocfocus = "handleFocus"
@@ -34,14 +37,29 @@
       @cocmouseover = "handleMouseOver"
       @cocmouseleave = "handleMouseLeave"
       @cocmousedown = "handleMouseDown"
-      @cocmouseup = "handleMouseUp">
-      <template slot = "prepend">
-        <slot name = "prepend"/>
-      </template>
+      @cocmouseup = "handleMouseUp"
+      @cocdropdownselections = "handleDropdownSelections">
+      <div
+        v-if = "selections && selections.length"
+        slot = "icon-prepend"
+        class = "col coc-margin-0 coc-padding-2px right">
+        <coc-tag
+          v-for = "(selection, index) in selections"
+          :key = "index"
+          :color = "isFired ? ( isValid ? 'success' : 'error' ) : 'primary'"
+          type = "outline"
+          border-radius = "standard"
+          font-size = "sm"
+          class = "col coc-margin-x-3px coc-margin-y-0 coc-padding-0">
+          <span>
+            {{ selection }}
+            <a @click = "ummarkTagOption(selection)" >x</a>
+          </span>
+        </coc-tag>
+      </div>
+      <slot name = "prepend"/>
       <template slot = "append">
-        <slot
-          :model = "model"
-          name = "append"/>
+        <slot name = "append"/>
       </template>
     </coc-input-field>
     <p
@@ -53,7 +71,7 @@
     <coc-form-atom
       :coc-event-controller = "eventController"
       :validate = "rules"
-      :val = "inputFieldModel"
+      :val = "selections"
       @validation = "handleValidation"/>
   </div>
 </template>
@@ -84,7 +102,7 @@ const defaultFilter = (value, options) => {
   )
 }
 export default {
-  name: 'CocPureInput',
+  name: 'CocPureSelect',
   components: {
     CocInputField
   },
@@ -188,6 +206,10 @@ export default {
     autocompleteMapResponse: {
       type: Function,
       default: (res, val) => res
+    },
+    multiple: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -200,9 +222,11 @@ export default {
       isMouseOver: false,
       isValid: { valid: false },
       isFired: false,
+      isMounted: false,
       isLoading: false,
       autoCompleteRemoteFeeds: [],
-      autocompleteRetriever: null
+      autocompleteRetriever: null,
+      selections: []
     }
   },
   computed: {
@@ -216,13 +240,13 @@ export default {
           placeholder: this.placeholder,
           domId: this.inputFieldMeta ? this.inputFieldMeta.ids.input : null,
           type: 'input',
-          val: this.input
+          val: this.selections
         }
       })
     },
     model() {
       return {
-        val: this.inputFieldModel,
+        val: this.selections,
         control: {
           focus: this.focus,
           blur: this.blur,
@@ -236,18 +260,15 @@ export default {
         },
         meta: {
           isValid: this.isValid,
-          isFired: this.isFired,
-          isFocused: this.isFocused,
-          onSuccess: this.onSuccessStatus,
-          onError: this.onErrorStatus
+          isFired: this.isFired
         }
       }
     },
     onError() {
-      return this.onErrorStatus()
+      return this.rules && !this.isValid.valid && this.isFired
     },
     onSuccess() {
-      return this.onSuccessStatus()
+      return this.rules && this.isValid.valid && this.isFired
     },
     // Autocomplette
     autocompleteComputedOptions() {
@@ -274,15 +295,35 @@ export default {
     value: {
       deep: true,
       handler(val) {
-        if (typeof val === 'object') {
-          this.inputFieldModel = val.val
-        } else if (typeof val === 'string') {
-          this.inputFieldModel = val
+        this.selections = this.resolveValue(val)
+        console.log(
+          'selections isss',
+          this.selections,
+          'val iss',
+          val.val,
+          'placeholder is,',
+          this.placeholder
+        )
+        if (
+          this.isMounted &&
+          this.$refs.inputFieldReference.$refs.dropdown.selectedOptions !==
+            this.selections
+        ) {
+          this.$refs.inputFieldReference.$refs.dropdown.selectedOptions = this.selections
         }
+      }
+    },
+    selections() {
+      if (this.isFired || this.isMounted) {
+        this.handleAfterSelections()
       }
     }
   },
-  mounted() {},
+  mounted() {
+    setTimeout(() => {
+      this.isMounted = true
+    }, 1000)
+  },
   methods: {
     // Controllers
     async reset() {
@@ -389,7 +430,6 @@ export default {
       this.isMouseOver = false
       this.$emit('coc-mouse-leave', e)
     },
-
     handleInputFieldInput() {
       this.isValid.valid = false
       this.isFired = true
@@ -401,14 +441,43 @@ export default {
         this.autocompleteRetriever.retrieve()
       }
     },
+    handleInputFieldKeydown(e) {
+      if (e.keyCode === 8 && !e.target.value.length) {
+        this.$refs.inputFieldReference.$refs.dropdown.selectedOptions.pop()
+      }
+    },
     handleValidation(e) {
       this.isValid = e
     },
-    onErrorStatus() {
-      return this.rules && !this.isValid.valid && this.isFired
+    handleDropdownSelections(e) {
+      this.selections = e
     },
-    onSuccessStatus() {
-      return this.rules && this.isValid.valid && this.isFired
+    handleAfterSelections() {
+      this.selections = this.$refs.inputFieldReference.$refs.dropdown.selectedOptions
+      this.inputFieldControllers.update('')
+      setTimeout(() => {
+        this.inputFieldControllers.handleElementsWidth()
+      }, 100)
+    },
+    ummarkTagOption(selection) {
+      this.$refs.inputFieldReference.$refs.dropdown.unmarkOptionByValue(
+        selection
+      )
+    },
+    resolveValue(val) {
+      if (typeof val === 'object' && !Array.isArray(val)) {
+        return this.resolveCoreValue(val.val)
+      } else if (typeof val === 'object' && Array.isArray(val)) {
+        return this.resolveCoreValue(val)
+      }
+    },
+    resolveCoreValue(val) {
+      return val
+      // if (!this.multiple) {
+      //   return val.length ? val[0] : []
+      // } else {
+      //   return val
+      // }
     }
   }
 }
