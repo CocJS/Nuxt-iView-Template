@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class = "parentClass">
     <span
       :class="[`coc-${color}-section-${type}`,`coc-${borderRadius}-border-radius`,`coc-text-${fontSize}`]"
       class="coc-padding-4px col s12"
@@ -45,6 +45,14 @@ export default {
     avatar: {
       type: Object,
       default: null
+    },
+    parentClass: {
+      type: String,
+      default: ''
+    },
+    childClass: {
+      type: String,
+      default: 'coc-padding-x-4px coc-padding-y-2px'
     }
   },
 

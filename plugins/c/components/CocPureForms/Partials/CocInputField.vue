@@ -23,8 +23,11 @@
         ref = "prepend"
         :id = "ids.prepend"
         class = "col house-keeper coc-input-field-prepend">
+        <slot name = "icon-prepend" />
         <span :class = "inputIconClasses"/>
-        <slot name = "prepend" />
+        <div class="col house-keeper">
+          <slot name = "prepend" />
+        </div>
       </div>
       <component 
         ref = "input"
@@ -57,7 +60,7 @@
       <div
         ref = "append"
         :id = "ids.append"
-        style = "min-width: 35px"
+        style = "min-width: 35px; max-width: 300px"
         class = "col house-keeper coc-input-field-append right">
         <span
           v-if = "dropdown"
@@ -77,7 +80,7 @@
             class = "coc-border-0 ivu-icon ivu-icon-ios-close-circle coc-input-field-icon "
             @click = "clear"/>
         </span>
-        <slot name = "append" />
+        <slot name = "append"/>
       </div>
     </div>
   </coc-dropdown>
@@ -104,6 +107,7 @@ const defaultFilter = (value, options) => {
   )
 }
 const specialKeys = [37, 38, 39, 40, 13, 27]
+const arrowKeys = [37, 38, 39, 40]
 export default {
   name: 'CocInputField',
   components: {
@@ -341,6 +345,7 @@ export default {
         this.$emit('input', value)
         this.inputValue = value
       }
+      this.handleElementsWidth()
     },
     toggleDropdown() {
       this.dropdownFocus = !this.dropdownFocus
@@ -363,7 +368,7 @@ export default {
     },
     handleInputEvent(e) {
       // this.inputValue = e.target.value
-      this.dropdownFocus = true
+      // this.dropdownFocus = true
     },
     handleMouseUp(e) {
       this.isMouseDown = false
@@ -406,10 +411,15 @@ export default {
     },
     handleKeyup(event) {
       this.$emit('cockeyup', event)
+      if (arrowKeys.indexOf(event.keyCode) !== -1) {
+        this.dropdownFocus = true
+        return
+      }
       if (specialKeys.indexOf(event.keyCode) !== -1) {
         return
       }
       this.update(event.target.value, true)
+      this.dropdownFocus = true
     },
     handleKeyUpArrowUp(event) {
       this.$emit('cocarrowup', event)

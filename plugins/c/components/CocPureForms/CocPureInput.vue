@@ -39,7 +39,9 @@
         <slot name = "prepend"/>
       </template>
       <template slot = "append">
-        <slot name = "append"/>
+        <slot
+          :model = "model"
+          name = "append"/>
       </template>
     </coc-input-field>
     <p
@@ -151,9 +153,7 @@ export default {
     },
     rules: {
       type: Object,
-      default() {
-        return {}
-      }
+      default: null
     },
     statusClasses: {
       type: Object,
@@ -236,15 +236,18 @@ export default {
         },
         meta: {
           isValid: this.isValid,
-          isFired: this.isFired
+          isFired: this.isFired,
+          isFocused: this.isFocused,
+          onSuccess: this.onSuccessStatus,
+          onError: this.onErrorStatus
         }
       }
     },
     onError() {
-      return !this.isValid.valid && this.isFired
+      return this.onErrorStatus()
     },
     onSuccess() {
-      return this.isValid.valid && this.isFired
+      return this.onSuccessStatus()
     },
     // Autocomplette
     autocompleteComputedOptions() {
@@ -400,6 +403,12 @@ export default {
     },
     handleValidation(e) {
       this.isValid = e
+    },
+    onErrorStatus() {
+      return this.rules && !this.isValid.valid && this.isFired
+    },
+    onSuccessStatus() {
+      return this.rules && this.isValid.valid && this.isFired
     }
   }
 }

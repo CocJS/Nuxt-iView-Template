@@ -76,8 +76,37 @@
           :autocomplete-map-response="(res, val) => { return res.map( item => { return { label : item.title, value: item.id.toString() } } ) }"
           icon = "ivu-icon ivu-icon-ios-person"
           allow-autocomplete
-          @coc-focus="handleEvent"
         />
+        <coc-pure-input
+          placeholder = "Slots Demo.."
+          icon = "ivu-icon ivu-icon-ios-grid-outline">
+          <coc-pure-select
+            slot = "prepend"
+            v-model="cocPureSelect"
+            :autocomplete-feeds="dropdownOptions"
+            :rules="{
+              MaxLength: { args: 6 }
+            }"
+            :status-classes = "{
+              container : 'coc-border-0 row house-keeper',
+              input: 'coc-focus-no-outline coc-border-0 '
+            }"
+            :style = "{ width: '300px !important' }"
+            placeholder = "Pick!!"
+            icon = "ivu-icon ivu-icon-ios-code"
+            allow-autocomplete
+          />
+          <span
+            slot = "append"
+            slot-scope = "{ model }"
+            :class = "[
+              { 'coc-primary-text' : model && model.meta && model.meta.isFocused },
+              { 'coc-content-text' : model && model.meta && !model.meta.isFocused },
+            ]"
+            class = "coc-margin-0 coc-padding-3px">
+            Appended {{ model.val ? 'Has Value' : 'Has No Value' }}
+          </span>
+        </coc-pure-input>
         <p class="text-subtitle coc-content-text text-code">Controls</p>
         <ButtonGroup v-if="cocPureInput">
           <Button
@@ -104,7 +133,6 @@
           icon = "ivu-icon ivu-icon-ios-code"
           allow-autocomplete
           multiple
-          @coc-focus = "handleEvent"
         />
         <p class="text-subtitle coc-content-text text-code">Controls</p>
         <ButtonGroup v-if="cocPureInput">
@@ -458,6 +486,7 @@ export default {
       input: null,
       cocPureInput: null,
       cocPureSelect: null,
+      cocSinglePureSelect: null,
       select: null,
       cb: null,
       btn: null,
