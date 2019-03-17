@@ -5,7 +5,6 @@
       :url = "submit_at"
       :params = "params"
       :method = "method"
-      :free_origin = "free_origin"
       :xdata = "submitData"
       v-model = "retriever"
       :scope = "scope"
@@ -21,9 +20,15 @@
       :class = "classes"
       :icon = "icon"
       :size = "size"
+      :long = "long"
       v-bind = "bind"
       :disabled = "disabled"
-      @click = "construct()"><template v-if = "placeholder && placeholder.length">{{ placeholder }}</template></Button>
+      @click = "construct()">
+      <slot
+        name = "default">
+        <template v-if = "placeholder && placeholder.length">{{ placeholder }}</template>
+      </slot>
+    </Button>
   </div>
 </template>
 <script>
@@ -51,10 +56,6 @@ export default {
       default: false
     },
     circle: {
-      type: Boolean,
-      default: false
-    },
-    free_origin: {
       type: Boolean,
       default: false
     },
@@ -105,6 +106,10 @@ export default {
     success_at: {
       type: Array,
       default: null
+    },
+    long: {
+      type: Boolean,
+      default: false
     },
     bind: {
       type: Object,
@@ -171,7 +176,7 @@ export default {
     eventController() {
       return new this.$coc.FormController({
         api: $nuxt,
-        type: 'Button',
+        type: 'button',
         scope: this.scope,
         model: this.model,
         component: {
@@ -199,6 +204,7 @@ export default {
         },
         meta: {
           hasErrors: this.hasErrors,
+          errorStack: this.errorStack,
           loading: this.isLoading,
           networkErrors: this.networkErrors,
           response: this.retriever.response,
@@ -213,8 +219,8 @@ export default {
     const vm = this
     this.eventController.Start()
     this.eventController.ReceiveMeta('valid', payloads => {
-      if (payloads.credentials == false) {
-        vm.errorStack.push(1)
+      if (payloads.credentials === false || payloads.pennding) {
+        vm.errorStack.push(payloads)
       }
     })
   },
@@ -302,8 +308,8 @@ export default {
       this.networkErrors = null
       //Search For Errors
       if (this.error_at) {
-        let errorIndex = $nuxt.$coc.GetIndex( // eslint-disable-line
-          $nuxt.$coc.FilterArrayOfObjects(this.error_at, "res"), // eslint-disable-line
+        let errorIndex = this.$coc.GetIndex(
+          this.$coc.FilterArrayOfObjects(this.error_at, 'res'),
           e.response
         )
         if (errorIndex != -1) {
@@ -321,7 +327,7 @@ export default {
         (this.success_at && $nuxt.$coc.ArrayIncludes(this.success_at, e.response)) // eslint-disable-line
       ) {
         this.notifi(
-          new $nuxt.$coc.Objects(this.success_msg).MixAndCreate({ type: "success" }) // eslint-disable-line
+          new this.$coc.Objects(this.success_msg).MixAndCreate({ type: "success" }) // eslint-disable-line
         )
         this.emit('submit_accepted')
         this.eventController.Send({

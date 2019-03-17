@@ -65,6 +65,18 @@
         .coc-#{$color}-hover-tint-#{$i}-border:hover { 
             border-color: tint($current-color, ($i * 10));
         }
+        .coc-#{$color}-focus-tint-#{$i}-bg:focus { 
+            background-color: tint($current-color, ($i * 10));
+        }
+        .coc-#{$color}-focus-tint-#{$i}-text:focus { 
+            color: tint($current-color, ($i * 10));
+        }
+        .coc-#{$color}-focus-tint-#{$i}-border:focus { 
+            border-color: tint($current-color, ($i * 10)) !important;
+        }
+        .coc-#{$color}-focus-box-tint-#{$i}-shadow:focus { 
+            box-shadow: 0 0 0 2px tint($current-color, ($i * 10));
+        }
 
         // Extensions
 
@@ -90,6 +102,19 @@
             box-shadow: 0 0 0 2px tint($current-color, ($i * 10));
         }
 
+        %coc-#{$color}-focus-tint-#{$i}-bg:focus { 
+            background-color: tint($current-color, ($i * 10));
+        }
+        %coc-#{$color}-focus-tint-#{$i}-text:focus { 
+            color: tint($current-color, ($i * 10));
+        }
+        %coc-#{$color}-focus-tint-#{$i}-border:focus { 
+            border-color: tint($current-color, ($i * 10)) !important;
+        }
+        %coc-#{$color}-focus-box-tint-#{$i}-shadow:focus { 
+            box-shadow: 0 0 0 2px tint($current-color, ($i * 10));
+        }
+
 
 
         // Shads
@@ -110,6 +135,18 @@
         }
         .coc-#{$color}-hover-shade-#{$i}-border:hover { 
             border-color: shade($current-color, ($i * 10));
+        }
+        .coc-#{$color}-focus-shade-#{$i}-bg:focus { 
+            background-color: shade($current-color, ($i * 10));
+        }
+        .coc-#{$color}-focus-shade-#{$i}-text:focus { 
+            color: shade($current-color, ($i * 10));
+        }
+        .coc-#{$color}-focus-shade-#{$i}-border:focus { 
+            border-color: shade($current-color, ($i * 10)) !important;
+        }
+        .coc-#{$color}-focus-box-shade-#{$i}-shadow:focus { 
+            box-shadow: 0 0 0 2px shade($current-color, ($i * 10));
         }
 
         // Extensions
@@ -135,6 +172,18 @@
         %coc-#{$color}-box-shade-#{$i}-shadow { 
             box-shadow: 0 0 0 2px shade($current-color, ($i * 10));
         }
+        %coc-#{$color}-focus-shade-#{$i}-bg:focus { 
+            background-color: shade($current-color, ($i * 10));
+        }
+        %coc-#{$color}-focus-shade-#{$i}-text:focus { 
+            color: shade($current-color, ($i * 10));
+        }
+        %coc-#{$color}-focus-shade-#{$i}-border:focus { 
+            border-color: shade($current-color, ($i * 10)) !important;
+        }
+        %coc-#{$color}-focus-box-shade-#{$i}-shadow:focus { 
+            box-shadow: 0 0 0 2px shade($current-color, ($i * 10));
+        }
    }
    %coc-#{$color}-section-outline {
       @extend %coc-primary-background-bg;
@@ -144,10 +193,16 @@
    .coc-#{$color}-section-outline {
     @extend %coc-#{$color}-section-outline;
    }
+   .coc-#{$color}-section-outline:focus {
+    @extend %coc-#{$color}-box-tint-7-shadow;
+   }
    %coc-#{$color}-section-dark {
       @extend %coc-#{$color}-bg;
       @extend %coc-#{$color}-shade-5-border;
       @extend %coc-#{$color}-shade-5-text;
+   }
+   .coc-#{$color}-section-dark:focus {
+    @extend %coc-#{$color}-box-tint-7-shadow;
    }
    .coc-#{$color}-section-dark {
      @extend %coc-#{$color}-section-dark;
@@ -157,6 +212,9 @@
       @extend %coc-#{$color}-bg;
       @extend %coc-#{$color}-tint-5-border;
       @extend %coc-#{$color}-tint-5-text;
+   }
+   .coc-#{$color}-section-light:focus {
+    @extend %coc-#{$color}-box-tint-7-shadow;
    }
    .coc-#{$color}-section-light {
      @extend %coc-#{$color}-section-light;

@@ -2,7 +2,7 @@ import COC from '../Core'
 import Events from '../Events'
 export default class $ extends Events {
   constructor(dom, options = { prefetch: false }) {
-    if (!process.browser) return
+    if (!document) return
     if (!dom) return
     super({
       api: typeof dom === 'string' ? document.querySelector(dom) : dom,
@@ -35,7 +35,11 @@ export default class $ extends Events {
     if (!this.domer) return this
     const css = stl.split(' ')
     let i
-    for (i = 0; i < css.length; i += 1) this.domer.classList.add(css[i])
+    for (i = 0; i < css.length; i += 1) {
+      if (css && typeof css[i] === 'string' && css[i].length) {
+        this.domer.classList.add(css[i])
+      }
+    }
     return this
   }
 
@@ -44,7 +48,11 @@ export default class $ extends Events {
     if (!this.domer) return this
     const css = stl.split(' ')
     let i
-    for (i = 0; i < css.length; i += 1) this.domer.classList.remove(css[i])
+    for (i = 0; i < css.length; i += 1) {
+      if (css && typeof css[i] === 'string' && css[i].length) {
+        this.domer.classList.remove(css[i])
+      }
+    }
     return this
   }
 

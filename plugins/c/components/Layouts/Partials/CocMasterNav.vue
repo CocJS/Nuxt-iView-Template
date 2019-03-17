@@ -50,8 +50,8 @@
               <coc-avatar
                 v-coc-mouse-over="'jello'"
                 v-coc-mouse-leave="'rubberBand'"
+                :source="$coc.App.logo.primary"
                 border-radius = "circle"
-                source="https://pbs.twimg.com/profile_images/570864141801533440/qqzM5W59_400x400.jpeg"
                 class="coc-padding-0 animated col house-keeper right"/>
             </div>
             <DropdownMenu slot="list">

@@ -467,7 +467,7 @@ export default {
       )
     },
     resolveValue(val) {
-      console.log(val, typeof val)
+      // console.log(val, typeof val)
       if (typeof val === 'object' && !Array.isArray(val)) {
         return this.resolveCoreValue(val.val)
       } else if (typeof val === 'object' && Array.isArray(val)) {

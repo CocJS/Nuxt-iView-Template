@@ -26,7 +26,7 @@ export default {
       type: String,
       required: true
     },
-    free_origin: {
+    freeOrigin: {
       type: Boolean,
       default: false
     },
@@ -86,9 +86,7 @@ export default {
   },
   computed: {
     finalUrl() {
-      return this.free_origin
-        ? this.url
-        : 'http://192.168.1.251:4000/' + this.url
+      return this.url
     }
   },
   mounted() {

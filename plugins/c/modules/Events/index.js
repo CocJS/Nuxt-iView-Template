@@ -1,17 +1,20 @@
-import Objects from '../Objects'
-export default class Event extends Objects {
-  constructor() {
-    super({})
+export default class Event {
+  constructor(options) {
     this.defaults = {
       api: '$nuxt',
       listener: '$on',
       emit: '$emit'
     }
-    const options = arguments.length ? arguments[0] : null
-    this.api = options.api ? options && options.api : this.defaults.api
+    const finalOptions = options || null
+    this.api = finalOptions.api
+      ? finalOptions && finalOptions.api
+      : this.defaults.api
     this.listener =
-      options && options.listener ? options.listener : this.defaults.listener
-    this.emit = options && options.emit ? options.emit : this.defaults.emit
+      finalOptions && finalOptions.listener
+        ? finalOptions.listener
+        : this.defaults.listener
+    this.emit =
+      finalOptions && finalOptions.emit ? finalOptions.emit : this.defaults.emit
     this.val = this
   }
   // Listeners

@@ -9,6 +9,7 @@ export default class {
     // Init Values
     this.Val = val
     this.Options = {}
+    this.Attemps = 0
     this.Rules = [
       // Existance
       'HasValue',
@@ -72,6 +73,7 @@ export default class {
 
   SetVal(val = 0) {
     this.Val = val
+    return this
   }
 
   SetDefaultErrorIcon(val = 'ivu-icon') {
@@ -91,14 +93,20 @@ export default class {
       this.ErrorMessages[rule].message = messageOrOption
       this.ErrorMessages[rule].icon = icon
     } else if (typeof messageOrOption === 'object') {
-      if (!messageOrOption.message) {
-        this.Logger.Warn(`This Rule *${rule}* does not exist`)
+      if (!messageOrOption.message && !messageOrOption.icon) {
+        this.Logger.Warn(
+          `This Rule *${rule}* error message has no arguments, Coc validator will fallback to the default.`
+        )
         return
       }
-      this.ErrorMessages[rule].message = messageOrOption.message
-      this.ErrorMessages[rule].icon = messageOrOption.icon
+      if (messageOrOption.message) {
+        this.ErrorMessages[rule].message = messageOrOption.message
+      }
+      if (messageOrOption.icon) {
+        this.ErrorMessages[rule].icon = messageOrOption.icon
+      }
     } else {
-      this.Logger.Warn('Invalid message structure')
+      this.Logger.Warn(`Invalid message structure for rule *${rule}*`)
       return
     }
   }
@@ -170,13 +178,16 @@ export default class {
   }
   // Error Delivery
 
-  DeliverError(reject, error, round = false) {
+  DeliverError(reject, error, round = false, attemp) {
+    this.Attemps += 1
     return reject({
       error,
       valid: false,
       message: this.GenerateErrorMessage(error, round).message,
       icon: this.GenerateErrorMessage(error).icon,
-      code: this.Rules.indexOf(error)
+      code: this.Rules.indexOf(error),
+      attemp,
+      attemps: this.Attemps - 1
     })
   }
 
@@ -249,6 +260,13 @@ export default class {
 
   HasValue() {
     if (!this.Val && typeof val !== 'number') {
+      return false
+    }
+    if (
+      typeof this.Val === 'object' &&
+      Array.isArray(this.Val) &&
+      !this.Val.length
+    ) {
       return false
     }
     if (typeof this.Val === 'string' && !this.Val.length) {
@@ -433,6 +451,7 @@ export default class {
       let i
       let round
       let error
+      const currentAttemp = this.Attemps
       for (i = 0; i < this.Rules.length; i += 1) {
         if (this.Options[this.Rules[i]] && this.Options[this.Rules[i]].active) {
           if (this.Options[this.Rules[i]].variable) {
@@ -443,22 +462,39 @@ export default class {
             this.Options[this.Rules[i]]
               .args()
               .then(() => {
-                return resolve({ error: null, valid: true })
+                this.Attemps += 1
+                return resolve({
+                  error: null,
+                  valid: true,
+                  attemp: currentAttemp,
+                  attemps: this.Attemps - 1
+                })
               })
               .catch(() => {
-                return this.DeliverError(reject, 'ResolvedPromise')
+                return this.DeliverError(
+                  reject,
+                  'ResolvedPromise',
+                  false,
+                  currentAttemp
+                )
               })
             return
           }
           if (round !== true) {
             error = this.Rules[i]
             this.IsValid = false
-            return this.DeliverError(reject, error, round)
+            return this.DeliverError(reject, error, round, currentAttemp)
           }
         }
       }
       this.IsValid = true
-      return resolve({ error: null, valid: true })
+      this.Attemps += 1
+      return resolve({
+        error: null,
+        valid: true,
+        attemp: currentAttemp,
+        attemps: this.Attemps - 1
+      })
     })
   }
 }

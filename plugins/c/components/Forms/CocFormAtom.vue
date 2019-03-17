@@ -33,10 +33,17 @@ export default {
     dev: {
       type: Boolean,
       default: false
+    },
+    overRideOldAttemps: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
-    return {}
+    return {
+      // Data
+      validator: new this.$coc.Validator(this.val)
+    }
   },
   computed: {
     eventController() {
@@ -44,37 +51,76 @@ export default {
         api: this.$root,
         type: this.cocEventController.type,
         scope: this.scope,
-        model: this.cocEventController.model,
+        model: this.generateModel(this.cocEventController.model),
         component: this.cocEventController.component
       })
-    },
-    validator() {
-      if (!this.validate) {
-        return null
-      }
-      const v = new this.$coc.Validator(this.val)
-      v.SetOptions(this.validate)
-      return v
     }
   },
   watch: {
-    val(val) {
-      if (!this.validate) {
-        return
+    val: {
+      deep: true,
+      handler(val) {
+        if (!this.validate) {
+          return
+        }
+        this.validator.SetVal(val)
+        this.validateValue()
       }
+    },
+    validate: {
+      deep: true,
+      immediate: true,
+      handler(val) {
+        if (val && typeof val === 'object') this.validator.SetOptions(val)
+      }
+    }
+  },
+  mounted() {
+    this.$emit('coc-atom-control', {
+      validator: this.validator,
+      validate: this.validateValue,
+      meta: this.eventController.HandleMeta,
+      submit: this.submit
+    })
+    this.eventController.Start()
+  },
+  methods: {
+    generateModel(model) {
+      const { control } = model
+      control.validate = this.validateValue
+      return {
+        control,
+        val: model.val,
+        meta: model.meta
+      }
+    },
+    validateValue(credentials = null) {
+      this.eventController.SetPennding(true)
       const vm = this
       this.validator
         .Run()
         .then(data => {
-          vm.$emit('validation', data)
+          vm.emitValidation(data, credentials)
         })
-        .catch(data => {
-          vm.$emit('validation', data)
+        .catch(err => {
+          vm.emitValidation(err, credentials)
         })
+    },
+    emitValidation(data, credentials) {
+      if (this.overRideOldAttemps || data.attemp === data.attemps) {
+        this.$emit('validation', data)
+      }
+      if (data.attemp === data.attemps) {
+        this.eventController.SetPennding(false)
+      }
+      if (credentials === 'meta') {
+        this.eventController.HandleMeta('valid', data)
+      }
+    },
+    submit() {
+      this.eventController.Submit()
     }
-  },
-  mounted() {},
-  methods: {}
+  }
 }
 </script>
 
