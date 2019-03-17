@@ -16,6 +16,7 @@ export default ({ app: { router }, env }, inject) => {
     brandName: 'CocJs',
     version: pkg.version,
     repository: pkg.repository,
+    author: pkg.author,
     mode: env.mode,
     logo: {
       primary: '/snaps/COC.png',

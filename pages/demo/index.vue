@@ -1,7 +1,7 @@
 <template>
   <coc-main-master>
     <div class="container coc-margin-top-1rem">
-      <div
+      <!-- <div
         class="coc-background-bg coc-padding-10px coc-standard-border-radius coc-border-1 coc-border-border"
       >
         <h3 class="text-title coc-content-text">Form</h3>
@@ -59,9 +59,9 @@
             }
           ]"
         />
-      </div>
+      </div> -->
 
-      <div
+      <!-- <div
         class="coc-background-bg coc-padding-10px coc-standard-border-radius coc-border-1 coc-border-border coc-margin-y-10px"
       >
         <h3 class="text-title coc-content-text">Coc Pure Input</h3>
@@ -95,6 +95,7 @@
             placeholder = "Pick!!"
             icon = "ivu-icon ivu-icon-ios-code"
             allow-autocomplete
+            multiple
           />
           <span
             slot = "append"
@@ -116,9 +117,9 @@
             @click="cocPureInput.control[index]()"
           >{{ index }}</Button>
         </ButtonGroup>
-      </div>
+      </div> -->
 
-      <div
+      <!-- <div
         class="coc-background-bg coc-padding-10px coc-standard-border-radius coc-border-1 coc-border-border coc-margin-y-10px"
       >
         <h3 class="text-title coc-content-text">Coc Pure Select</h3>
@@ -143,7 +144,7 @@
             @click="cocPureInput.control[index]()"
           >{{ index }}</Button>
         </ButtonGroup>
-      </div>
+      </div> -->
 
       <div
         class="coc-background-bg coc-padding-10px coc-standard-border-radius coc-border-1 coc-border-border coc-margin-y-10px"
@@ -151,13 +152,18 @@
         <h3 class="text-title coc-content-text">Coc Input</h3>
         <coc-input
           v-model="input"
-          :maxlen="12"
-          :minlen="3"
+          :rules = "{
+            HasValue: { active: true },
+            MaxLength: { args: 2 },
+          }"
           :scope="['form']"
+          :autocomplete-remote="{
+            method: 'get',
+            url: 'https://jsonplaceholder.typicode.com/posts'
+          }"
+          :autocomplete-map-response="(res) => res.map(i => i.title)"
           placeholder="COC Input"
           icon="ios-person"
-          type="password"
-          required
         />
         <p class="text-subtitle coc-content-text text-code">Controls</p>
         <ButtonGroup v-if="input">
@@ -176,33 +182,24 @@
         <h3 class="text-title coc-content-text">Coc Select</h3>
         <coc-select
           v-model="select"
-          :options="[
-            {
-              label: 'Web',
-              group: true,
-              options: [
-                { label: 'HTML', value: 'html', icon: 'ivu-icon ivu-icon-logo-html5 orange-text' },
-                { label: 'JavaScript', value: 'js', icon: 'ivu-icon ivu-icon-logo-javascript yellow-text' },
-                { label: 'CSS', value: 'css', icon: 'ivu-icon ivu-icon-logo-css3 blue-text' },
-              ]
-            },
-            {
-              label: 'Mobile',
-              group: true,
-              options: [
-                { label: 'IOS', value: 'ios', icon: 'ivu-icon ivu-icon-ios-appstore blue-text text-darken-3' },
-                { label: 'Andriod', value: 'andriod', icon: 'ivu-icon ivu-icon-logo-android green-text' },
-              ]
-            }
+          :data="[
+            'Foo',
+            'Bar'
           ]"
+          :rules = "{
+            HasValue: {}
+          }"
           :scope="['form']"
-          :max_picks="4"
-          :min_picks="2"
+          filterable
           placeholder="COC Select, Select a programming flavour"
           icon="ios-code"
-          required
           multiple
-        />
+        >
+          <template
+            slot = "extra-options">
+            <coc-iview-option init = "lorem"/>
+          </template>
+        </coc-select>
         <p class="text-subtitle coc-content-text text-code">Controls</p>
         <ButtonGroup v-if="select">
           <Button
@@ -219,7 +216,6 @@
       >
         <h3 class="text-title coc-content-text">Coc Radio</h3>
         <coc-radio
-          v-model="radio"
           :options="[
 
             { label: 'HTML', value: 'html', icon: 'ivu-icon ivu-icon-logo-html5 orange-text' },
@@ -249,7 +245,6 @@
       >
         <h3 class="text-title coc-content-text">Coc Checkbox</h3>
         <coc-radio
-          v-model="cb"
           :options="[
 
             { label: 'HTML', value: 'html', icon: 'ivu-icon ivu-icon-logo-html5 orange-text' },
@@ -483,7 +478,7 @@ export default {
   data() {
     return {
       radio: null,
-      input: null,
+      input: 'null',
       cocPureInput: null,
       cocPureSelect: null,
       cocSinglePureSelect: null,
@@ -566,7 +561,7 @@ export default {
   },
   mounted() {
     // setTimeout(() => {
-    //   console.log(this.$refs.inputFieldReference)
+    //   this.input = 'foaazz'
     // }, 3000)
   },
   methods: {

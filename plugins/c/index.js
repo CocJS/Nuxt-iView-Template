@@ -10,6 +10,7 @@ import FormController from './modules/FormController'
 import Filters from './modules/Filters'
 import Logger from './modules/Logger'
 import Docker from './modules/Docker'
+import OptionsManager from './modules/Options'
 
 // COC.VUE
 // Vue Directives
@@ -32,6 +33,7 @@ import CocAxios from './components/Assistants/CocAxios.vue'
 import CocWatchMyWindow from './components/Assistants/CocWatchMyWindow.vue'
 import CocCollapse from './components/Assistants/CocCollapse.vue'
 import CocShowKeys from './components/Assistants/CocShowKeys.vue'
+import CocIviewOption from './components/Assistants/CocIviewOption.vue'
 import CocMainMaster from './components/Layouts/Masters/CocMainMaster.vue'
 import CocMasterFooter from './components/Layouts/Partials/CocMasterFooter.vue'
 import CocLayoutDocker from './components/Layouts/Partials/Docker.vue'
@@ -59,6 +61,7 @@ COC.FormController = FormController
 COC.Validator = Validator
 COC.Filters = Filters
 COC.Docker = Docker
+COC.OptionsManager = OptionsManager
 
 COC.Init = options => {
   const Vue = options.Vue
@@ -86,7 +89,8 @@ COC.Init = options => {
     CocPureSelect,
     CocOption,
     CocTag,
-    CocAvatar
+    CocAvatar,
+    CocIviewOption
   }
   const directives = {
     CocLoading,

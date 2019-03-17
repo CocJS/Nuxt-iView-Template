@@ -1,12 +1,15 @@
 import COC from '../Core'
+import Logger from '../Logger'
 export default class Arrays {
-  constructor(arr) {
-    if (!Array.isArray(arr)) {
-      COC.DevWarn({
-        component: 'COC Arrays Class',
-        message: 'You must initialize the class with an array.'
+  constructor(arr, options = {}) {
+    const defaults = { logger: 'COC Arrays' }
+    const optionsCompined = { ...defaults, ...options }
+    this.Logger = new Logger(optionsCompined.logger)
+    if (!arr || !Array.isArray(arr)) {
+      this.Logger.Warn({
+        message: 'You must initialize the class with an array.',
+        log: `Hint: ${arr} from the type ${typeof val} was passed.`
       })
-      delete this
       return
     }
     this.val = arr && arr !== null ? arr : []
@@ -78,6 +81,19 @@ export default class Arrays {
 
   Search(...args) {
     return COC.BinarySearch(this.Sorted.get, args[0])
+  }
+
+  IsMatching(array) {
+    if (!this.Length || !array.length) {
+      return false
+    }
+    let i
+    for (i = 0; i < array.length; i += 1) {
+      if (this.Includes(array[i])) {
+        return true
+      }
+    }
+    return false
   }
 
   FindAll(...args) {

@@ -149,7 +149,9 @@ export default {
     },
     scope: {
       type: Array,
-      default: null
+      default() {
+        return []
+      }
     },
     rules: {
       type: Object,
